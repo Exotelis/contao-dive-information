@@ -2,6 +2,9 @@
 <xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/tl_member.php" source-language="en">
     <body>
+      <trans-unit id="tl_member.dive_legend">
+        <source>Dive details</source>
+      </trans-unit>
       <trans-unit id="tl_member.membershipStatus.0">
         <source>Membership status</source>
       </trans-unit>
