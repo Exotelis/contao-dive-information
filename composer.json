@@ -1,5 +1,5 @@
 {
-  "name": "Exotelis/contao-dive-information",
+  "name": "exotelis/contao-dive-information",
   "description": "Adds additional information to a member",
   "type": "contao-bundle",
   "license": "LGPL-3.0-or-later",
