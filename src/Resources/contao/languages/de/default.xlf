@@ -1,0 +1,26 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/default.php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="MSC.active">
+        <source>Active</source>
+        <target>Aktiv</target>
+      </trans-unit>
+      <trans-unit id="MSC.passive">
+        <source>Passive</source>
+        <target>Passiv</target>
+      </trans-unit>
+      <trans-unit id="MSC.child">
+        <source>Child</source>
+        <target>Kind</target>
+      </trans-unit>
+      <trans-unit id="MSC.yes">
+        <source>Yes</source>
+        <target>Ja</target>
+      </trans-unit>
+      <trans-unit id="MSC.no">
+        <source>No</source>
+        <target>Nein</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
