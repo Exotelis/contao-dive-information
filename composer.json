@@ -11,8 +11,8 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/Exotelis/contao-DiveInformation/issues",
-    "source": "https://github.com/Exotelis/contao-DiveInformation"
+    "issues": "https://github.com/Exotelis/contao-dive-information/issues",
+    "source": "https://github.com/Exotelis/contao-dive-information"
   },
   "require": {
     "php": "^7.0",
