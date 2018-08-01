@@ -1,0 +1,31 @@
+{
+  "name": "Exotelis/contao-DiveInformation",
+  "description": "Adds additional information to a member",
+  "type": "contao-bundle",
+  "license": "LGPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Sebastian Krah",
+      "email": "exotelis@mailbox.org",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/Exotelis/contao-DiveInformation/issues",
+    "source": "https://github.com/Exotelis/contao-DiveInformation"
+  },
+  "require": {
+    "php": "^7.0",
+    "contao/core-bundle": "^4.4"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Exotelis\\ContaoDiveInformationBundle\\": "src/"
+    }
+  },
+  "extra": {
+    "contao-manager-plugin": "Exotelis\\ContaoDiveInformationBundle\\ContaoManager\\Plugin"
+  }
+}
