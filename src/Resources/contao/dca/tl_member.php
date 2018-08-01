@@ -14,7 +14,7 @@
 declare(strict_types=1);
 
 // Add palette
-$GLOBALS['TL_DCA']['tl_member']['palettes']['default'] = str_replace('gender;', 'gender;{dive_legend:hide}membershipStatus,brevet,nitrox,divecard;', $GLOBALS['TL_DCA']['tl_member']['palettes']['default']);
+$GLOBALS['TL_DCA']['tl_member']['palettes']['default'] = str_replace('gender;', 'gender;{dive_legend},membershipStatus,brevet,nitrox,divecard;', $GLOBALS['TL_DCA']['tl_member']['palettes']['default']);
 
 // Add field
 $GLOBALS['TL_DCA']['tl_member']['fields']['membershipStatus'] = array
