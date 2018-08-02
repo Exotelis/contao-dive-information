@@ -11,3 +11,14 @@
  * @license   https://github.com/Exotelis/contao-dive-information/blob/master/LICENSE LGPL-3.0
  */
 
+declare(strict_types=1);
+
+// Backend Module
+
+array_insert($GLOBALS['BE_MOD']['accounts'], 2, array
+(
+   'export-members' => array
+   (
+        'callback' => 'Contao\ModuleExportMembers'
+   )
+));
