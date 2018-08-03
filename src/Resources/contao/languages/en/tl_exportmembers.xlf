@@ -5,6 +5,9 @@
       <trans-unit id="tl_exportmembers.headline">
         <source>Export Members</source>
       </trans-unit>
+      <trans-unit id="tl_exportmembers.submit">
+         <source>Export</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

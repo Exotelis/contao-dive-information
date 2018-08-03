@@ -6,6 +6,10 @@
         <source>Export Members</source>
         <target>Exportiere Mitglieder</target>
       </trans-unit>
+      <trans-unit id="tl_exportmembers.submit">
+        <source>Export</source>
+        <target>Exportieren</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
