@@ -35,9 +35,13 @@ class ModuleExportMembers extends Contao\BackendModule
      */
     protected function compile()
     {
-        $this->Template->test = 'Hello World';
+        Contao\System::loadLanguageFile('tl_exportmembers');
+
         $this->Template->href = $this->getReferer(true);
         $this->Template->title = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
         $this->Template->button = $GLOBALS['TL_LANG']['MSC']['backBT'];
+
+        $this->Template->headline = $GLOBALS['TL_LANG']['tl_exportmembers']['headline'];
+        $this->Template->test = 'Hello World';
     }
 }

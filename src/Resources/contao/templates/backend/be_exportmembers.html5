@@ -3,5 +3,6 @@
 </div>
 
 <div id="tl_exportmembers_button" class="tl_exportmembers_button">
+    <h2 class="sub_headline"><?= $this->headline ?></h2>
     <?= $this->test ?>
 </div>
