@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 array_insert($GLOBALS['BE_MOD']['accounts'], 2, array
 (
-   'export-members' => array
+   'exportmembers' => array
    (
         'callback' => 'Exotelis\ModuleExportMembers'
    )
