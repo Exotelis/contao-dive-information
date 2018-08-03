@@ -31,18 +31,6 @@ class ModuleExportMembers extends Contao\BackendModule
     protected $strTemplate = 'be_exportmembers';
 
     /**
-     * Initialize the object
-     *
-     * @param DataContainer $dc
-     */
-    public function __construct(DataContainer $dc=null)
-    {
-        parent::__construct();
-        $this->objDc = $dc;
-        die('Wird nicht aufgerufen');
-    }
-
-    /**
      * Compile the current element
      */
     protected function compile()
