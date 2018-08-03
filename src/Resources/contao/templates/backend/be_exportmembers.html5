@@ -1,8 +1,18 @@
 <div id="tl_buttons">
-    <a href="<?= $this->href ?>" class="header_back" title="<?= $this->title ?>"><?= $this->button ?></a>
+  <a href="<?= $this->href ?>" class="header_back" title="<?= $this->title ?>"><?= $this->button ?></a>
 </div>
 
-<div id="tl_exportmembers_button" class="tl_exportmembers_button">
-    <h2 class="sub_headline"><?= $this->headline ?></h2>
-    <?= $this->test ?>
+<div id="tl_exportmembers" class="tl_exportmembers">
+  <h2 class="sub_headline"><?= $this->headline ?></h2>
+
+  <form action="<?= $this->action ?>" class="tl_form" method="post">
+    <div class="tl_formbody_edit">
+      <input type="hidden" name="FORM_SUBMIT" value="tl_exportmembers">
+      <input type="hidden" name="REQUEST_TOKEN" value="<?= REQUEST_TOKEN ?>">
+    </div>
+
+    <div class="tl_submit_container">
+      <button type="submit" name="exportmembers" class="tl_submit"><?= $this->submit ?></button>
+    </div>
+  </form>
 </div>
