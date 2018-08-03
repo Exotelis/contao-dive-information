@@ -42,6 +42,12 @@ class ModuleExportMembers extends Contao\BackendModule
         $this->Template->button = $GLOBALS['TL_LANG']['MSC']['backBT'];
 
         $this->Template->headline = $GLOBALS['TL_LANG']['tl_exportmembers']['headline'];
-        $this->Template->test = 'Hello World';
+        $this->Template->action = ampersand(Contao\Environment::get('request'));
+        $this->Template->submit = $GLOBALS['TL_LANG']['tl_exportmembers']['submit'];
+
+        if (Contao\Input::post('FORM_SUBMIT') == 'tl_exportmembers') {
+            // Export Members
+            $this->reload();
+        }
     }
 }
