@@ -2,4 +2,6 @@
     <a href="<?= $this->href ?>" class="header_back" title="<?= $this->title ?>"><?= $this->button ?></a>
 </div>
 
-<?= $this->content ?>
+<div id="tl_exportmembers_button" class="tl_exportmembers_button">
+    <?= $this->test ?>
+</div>
