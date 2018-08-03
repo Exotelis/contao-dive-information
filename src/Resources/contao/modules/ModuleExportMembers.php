@@ -39,7 +39,7 @@ class ModuleExportMembers extends Contao\BackendModule
     {
         parent::__construct();
         $this->objDc = $dc;
-        die('construct!');
+        die('Wird nicht aufgerufen');
     }
 
     /**
@@ -47,7 +47,6 @@ class ModuleExportMembers extends Contao\BackendModule
      */
     protected function compile()
     {
-        die('test');
         $this->Template->test = 'Hello World';
         $this->Template->href = $this->getReferer(true);
         $this->Template->title = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
