@@ -19,6 +19,6 @@ array_insert($GLOBALS['BE_MOD']['accounts'], 2, array
 (
    'export-members' => array
    (
-        'callback' => 'Contao\ModuleExportMembers'
+        'callback' => 'Exotelis\ModuleExportMembers'
    )
 ));

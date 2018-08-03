@@ -13,14 +13,16 @@
 
 declare(strict_types=1);
 
-namespace Contao;
+namespace Exotelis;
+
+use Contao;
 
 /**
  * Back end module "Export Members".
  *
  * @author Sebastian Krah <https://github.com/Exotelis>
  */
-class ModuleExportMembers extends BackendModule
+class ModuleExportMembers extends Contao\BackendModule
 {
     /**
      * Template
@@ -33,9 +35,11 @@ class ModuleExportMembers extends BackendModule
      *
      * @param DataContainer $dc
      */
-    public function __construct(DataContainer $dc = null)
+    public function __construct(DataContainer $dc=null)
     {
-        parent::__construct($dc);
+        parent::__construct();
+        $this->objDc = $dc;
+        die('construct!');
     }
 
     /**
@@ -43,7 +47,8 @@ class ModuleExportMembers extends BackendModule
      */
     protected function compile()
     {
-        $this->Template->content = 'Hello World';
+        die('test');
+        $this->Template->test = 'Hello World';
         $this->Template->href = $this->getReferer(true);
         $this->Template->title = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
         $this->Template->button = $GLOBALS['TL_LANG']['MSC']['backBT'];
