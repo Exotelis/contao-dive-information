@@ -14,12 +14,18 @@
 declare(strict_types=1);
 
 // Backend Module
-
 array_insert($GLOBALS['BE_MOD']['accounts'], 2, array
 (
-   'exportmembers' => array
-   (
-       'callback'   => 'Exotelis\ModuleExportMembers',
-       'stylesheet' => 'bundles/exoteliscontaodiveinformation/exportmembers.css'
-   )
+    'diver' => array
+    (
+        'tables' => array('tl_diver')
+    )
+));
+array_insert($GLOBALS['BE_MOD']['accounts'], 3, array
+(
+    'exportdiver' => array
+    (
+        'callback'   => 'Exotelis\ModuleExportDiver',
+        'stylesheet' => 'bundles/exoteliscontaodiveinformation/diver.css'
+    )
 ));
