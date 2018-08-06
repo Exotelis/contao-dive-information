@@ -65,7 +65,13 @@ class ModuleExportMembers extends Contao\BackendModule
         $data = array();
 
         // List of columns that should be selected (stop and disabled must be part of it)
-        $labels = array('lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'membershipStatus', 'brevet', 'nitrox', 'divecard', 'start', 'stop', 'disable');
+        $labels = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'membershipStatus', 'brevet', 'nitrox', 'divecard', 'start', 'stop', 'disable');
+
+        // Add Label to field ID
+        if(\in_array('id', $labels))
+        {
+            $GLOBALS['TL_DCA']['tl_member']['fields']['id']['label'] = $GLOBALS['TL_LANG']['tl_member']['memberId'];
+        }
 
         // Get data from database
         $objRow = $this->Database->prepare("SELECT " . implode(",", $labels) . " FROM tl_member ORDER BY lastname, firstname")
