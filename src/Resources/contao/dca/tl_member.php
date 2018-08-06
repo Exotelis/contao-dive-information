@@ -16,6 +16,9 @@ declare(strict_types=1);
 // Add palette
 $GLOBALS['TL_DCA']['tl_member']['palettes']['default'] = str_replace('gender;', 'gender;{dive_legend},membershipStatus,brevet,nitrox,divecard;', $GLOBALS['TL_DCA']['tl_member']['palettes']['default']);
 
+// Change field
+$GLOBALS['TL_DCA']['tl_member']['fields']['email']['eval']['mandatory'] = false;
+
 // Add field
 $GLOBALS['TL_DCA']['tl_member']['fields']['membershipStatus'] = array
 (
@@ -67,7 +70,9 @@ $GLOBALS['TL_DCA']['tl_member']['fields']['divecard'] = array
     'search'                  => true,
     'sorting'                 => true,
     'flag'                    => 1,
-    'inputType'               => 'text',
-    'eval'                    => array('maxlength'=>32, 'feEditable'=>false, 'feViewable'=>false, 'feGroup'=>'personal', 'tl_class'=>'w50'),
+    'inputType'               => 'select',
+    'options'                 => array('basic', 'family', 'professional'),
+    'reference'               => &$GLOBALS['TL_LANG']['MSC'],
+    'eval'                    => array('includeBlankOption'=>true, 'feEditable'=>false, 'feViewable'=>false, 'feGroup'=>'personal', 'tl_class'=>'w50'),
     'sql'                     => "varchar(32) NOT NULL default ''"
 );
