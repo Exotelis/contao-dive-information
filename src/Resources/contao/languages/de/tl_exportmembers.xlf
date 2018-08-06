@@ -7,8 +7,12 @@
         <target>Exportiere Mitglieder</target>
       </trans-unit>
       <trans-unit id="tl_exportmembers.submit">
-        <source>Export</source>
-        <target>Exportieren</target>
+        <source>Export as csv</source>
+        <target>Exportiere als CSV</target>
+      </trans-unit>
+      <trans-unit id="tl_exportmembers.listOfMembers">
+        <source>List of members - Last updated</source>
+        <target>Mitgliederliste - Stand</target>
       </trans-unit>
     </body>
   </file>
