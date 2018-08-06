@@ -22,13 +22,13 @@ use Contao;
  *
  * @author Sebastian Krah <https://github.com/Exotelis>
  */
-class ModuleExportMembers extends Contao\BackendModule
+class ModuleExportDiver extends Contao\BackendModule
 {
     /**
      * Template
      * @var string
      */
-    protected $strTemplate = 'be_exportmembers';
+    protected $strTemplate = 'be_exportdiver';
 
     /**
      * Compile the current element
