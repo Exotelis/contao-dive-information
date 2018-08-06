@@ -41,6 +41,9 @@
       <trans-unit id="tl_member.diveInformationStop">
         <source>Automatic withdrawal</source>
       </trans-unit>
+      <trans-unit id="tl_member.automaticallyResigned">
+        <source>automatically resigned</source>
+      </trans-unit>
       <trans-unit id="tl_member.interested.0">
         <source>Interested person</source>
       </trans-unit>

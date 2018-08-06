@@ -54,6 +54,10 @@
         <source>Automatic withdrawal</source>
         <target>Automatischer Austritt</target>
       </trans-unit>
+      <trans-unit id="tl_member.automaticallyResigned">
+        <source>automatically resigned</source>
+        <target>Automatisch ausgetreten</target>
+      </trans-unit>
       <trans-unit id="tl_member.interested.0">
         <source>Interested person</source>
         <target>Interessent</target>

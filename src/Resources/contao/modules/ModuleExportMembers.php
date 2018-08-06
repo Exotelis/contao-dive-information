@@ -160,7 +160,7 @@ class ModuleExportMembers extends Contao\BackendModule
         }
 
         // add automatic resigned member
-        \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['diveInformationStop']);
+        \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['automaticallyResigned']);
         foreach ($data['automaticout'] as $d)
         {
             $d = \implode($delimiter, $d);
