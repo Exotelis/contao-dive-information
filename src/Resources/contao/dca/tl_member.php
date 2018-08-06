@@ -60,7 +60,7 @@ $GLOBALS['TL_DCA']['tl_member']['fields']['nitrox'] = array
     'options'                 => array('yes', 'no', 'trainer'),
     'reference'               => &$GLOBALS['TL_LANG']['MSC'],
     'eval'                    => array('includeBlankOption'=>true, 'feEditable'=>false, 'feViewable'=>false, 'feGroup'=>'personal', 'tl_class'=>'w50'),
-    'sql'                     => "varchar(5) NOT NULL default ''"
+    'sql'                     => "varchar(10) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_member']['fields']['divecard'] = array
