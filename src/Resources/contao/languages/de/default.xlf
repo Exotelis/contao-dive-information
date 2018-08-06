@@ -21,6 +21,18 @@
         <source>No</source>
         <target>Nein</target>
       </trans-unit>
+      <trans-unit id="MSC.basic">
+        <source>Basic</source>
+        <target>Basic</target>
+      </trans-unit>
+      <trans-unit id="MSC.family">
+        <source>Family</source>
+        <target>Family</target>
+      </trans-unit>
+      <trans-unit id="MSC.professional">
+        <source>Professional</source>
+        <target>Professional</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
