@@ -54,6 +54,18 @@
         <source>Automatic withdrawal</source>
         <target>Automatischer Austritt</target>
       </trans-unit>
+      <trans-unit id="tl_member.interested.0">
+        <source>Interested person</source>
+        <target>Interessent</target>
+      </trans-unit>
+      <trans-unit id="tl_member.interested.1">
+        <source>Here you can define if its an interested person.</source>
+        <target>Hier können Sie wählen ob es sich um einen Interessenten handelt.</target>
+      </trans-unit>
+      <trans-unit id="tl_member.interestedPeople">
+        <source>Interested people</source>
+        <target>Interessenten</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

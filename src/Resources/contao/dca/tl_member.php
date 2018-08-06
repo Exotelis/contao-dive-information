@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 // Add palette
 $GLOBALS['TL_DCA']['tl_member']['palettes']['default'] = str_replace('gender;', 'gender;{dive_legend},membershipStatus,brevet,nitrox,divecard;', $GLOBALS['TL_DCA']['tl_member']['palettes']['default']);
+$GLOBALS['TL_DCA']['tl_member']['palettes']['default'] = str_replace('{account_legend},', '{account_legend},interested,', $GLOBALS['TL_DCA']['tl_member']['palettes']['default']);
 
 // Change field
 $GLOBALS['TL_DCA']['tl_member']['fields']['email']['eval']['mandatory'] = false;
@@ -75,4 +76,15 @@ $GLOBALS['TL_DCA']['tl_member']['fields']['divecard'] = array
     'reference'               => &$GLOBALS['TL_LANG']['MSC'],
     'eval'                    => array('includeBlankOption'=>true, 'feEditable'=>false, 'feViewable'=>false, 'feGroup'=>'personal', 'tl_class'=>'w50'),
     'sql'                     => "varchar(32) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_member']['fields']['interested'] = array
+(
+    'label'                   => &$GLOBALS['TL_LANG']['tl_member']['interested'],
+    'exclude'                 => true,
+    'search'                  => true,
+    'sorting'                 => false,
+    'filter'                  => true,
+    'inputType'               => 'checkbox',
+    'sql'                     => "char(1) NOT NULL default ''"
 );

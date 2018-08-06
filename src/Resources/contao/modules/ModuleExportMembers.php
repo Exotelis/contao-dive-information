@@ -170,6 +170,20 @@ class ModuleExportMembers extends Contao\BackendModule
             \array_push($csv, $d);
         }
 
+        // Interested people
+        \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['interestedPeople']);
+        foreach ($data as $d)
+        {
+            if(!$d['disable'])
+            {
+                continue;
+            }
+            unset($d['disable']);
+
+            $d = \implode($delimiter, $d);
+            \array_push($csv, $d);
+        }
+
         return $csv;
     }
 
