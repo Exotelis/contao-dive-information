@@ -29,6 +29,15 @@
       <trans-unit id="tl_member.divecard.1">
         <source>Here you can enter the divecard.</source>
       </trans-unit>
+      <trans-unit id="tl_member.diveInformationDisable">
+        <source>Resigned</source>
+      </trans-unit>
+      <trans-unit id="tl_member.diveInformationStart">
+        <source>Entry date</source>
+      </trans-unit>
+      <trans-unit id="tl_member.diveInformationStop">
+        <source>Automatic withdrawal</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

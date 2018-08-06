@@ -38,6 +38,18 @@
         <source>Here you can enter the aqua med divecard.</source>
         <target>Hier können Sie die aqua med divecard eintragen.</target>
       </trans-unit>
+      <trans-unit id="tl_member.diveInformationDisable">
+        <source>Resigned</source>
+        <target>Ausgetreten</target>
+      </trans-unit>
+      <trans-unit id="tl_member.diveInformationStart">
+        <source>Entry date</source>
+        <target>Eintrittsdatum</target>
+      </trans-unit>
+      <trans-unit id="tl_member.diveInformationStop">
+        <source>Automatic withdrawal</source>
+        <target>Automatischer Austritt</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
