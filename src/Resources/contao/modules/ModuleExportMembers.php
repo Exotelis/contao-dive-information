@@ -62,7 +62,7 @@ class ModuleExportMembers extends Contao\BackendModule
         $this->loadDataContainer('tl_member');
 
         // Define array to store labels and data
-        $data = array();
+        $data = array('in' => array(), 'automaticout' => array(), 'out' => array(), 'interested' => array());
 
         // List of columns that should be selected (stop, disabled and interested must be part of it)
         $labels = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'membershipStatus', 'brevet', 'nitrox', 'divecard', 'start', 'stop', 'disable', 'interested');
@@ -81,11 +81,6 @@ class ModuleExportMembers extends Contao\BackendModule
         // Parse data
         foreach($result as $r)
         {
-            // Update disable if stop date is in the past
-            if(!empty($r['stop']) && (int)$r['stop'] < \time()) {
-                $r['disable'] = 1;
-            }
-
             // Set labels and convert and translate data
             foreach ($labels as $label)
             {
@@ -104,7 +99,26 @@ class ModuleExportMembers extends Contao\BackendModule
             }
 
             // Push data
-            \array_push($data, $r);
+            if($r['interested'])
+            {
+                unset($r['disable'], $r['interested']);
+                \array_push($data['interested'], $r);
+            }
+            elseif($r['disable'])
+            {
+                unset($r['disable'], $r['interested']);
+                \array_push($data['out'], $r);
+            }
+            elseif(!empty($r['stop']) && (int)$r['stop'] < \time())
+            {
+                unset($r['disable'], $r['interested']);
+                \array_push($data['automaticout'], $r);
+            }
+            else
+            {
+                unset($r['disable'], $r['interested']);
+                \array_push($data['in'], $r);
+            }
         }
 
         return $data;
@@ -123,12 +137,7 @@ class ModuleExportMembers extends Contao\BackendModule
         $temp = array();
 
         // Set header
-        foreach ($data[0] as $k => $v) {
-            // Skip column disable
-            if ($k === 'disable') {
-                continue;
-            }
-
+        foreach ($data['in'][0] as $k => $v) {
             if (\is_array($GLOBALS['TL_DCA']['tl_member']['fields'][$k]['label'])) {
                 $temp['header'][$k] = $GLOBALS['TL_DCA']['tl_member']['fields'][$k]['label'][0];
             } else {
@@ -144,42 +153,32 @@ class ModuleExportMembers extends Contao\BackendModule
         $csv['header'] = \implode($delimiter, $temp['header']);
 
         // Add Members
-        foreach ($data as $d)
+        foreach ($data['in'] as $d)
         {
-            if($d['disable'] || $d['interested'])
-            {
-                continue;
-            }
-            unset($d['disable'], $d['interested']);
+            $d = \implode($delimiter, $d);
+            \array_push($csv, $d);
+        }
 
+        // add automatic resigned member
+        \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['diveInformationStop']);
+        foreach ($data['automaticout'] as $d)
+        {
             $d = \implode($delimiter, $d);
             \array_push($csv, $d);
         }
 
         // Add old Members
         \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['diveInformationDisable']);
-        foreach ($data as $d)
+        foreach ($data['out'] as $d)
         {
-            if(!$d['disable'] || $d['interested'])
-            {
-                continue;
-            }
-            unset($d['disable'], $d['interested']);
-
             $d = \implode($delimiter, $d);
             \array_push($csv, $d);
         }
 
         // Interested people
         \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['interestedPeople']);
-        foreach ($data as $d)
+        foreach ($data['interested'] as $d)
         {
-            if(!$d['interested'])
-            {
-                continue;
-            }
-            unset($d['disable'], $d['interested']);
-
             $d = \implode($delimiter, $d);
             \array_push($csv, $d);
         }
