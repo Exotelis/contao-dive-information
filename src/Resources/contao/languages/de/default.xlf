@@ -21,6 +21,10 @@
         <source>No</source>
         <target>Nein</target>
       </trans-unit>
+      <trans-unit id="MSC.trainer">
+        <source>Trainer</source>
+        <target>Trainer</target>
+      </trans-unit>
       <trans-unit id="MSC.basic">
         <source>Basic</source>
         <target>Basic</target>

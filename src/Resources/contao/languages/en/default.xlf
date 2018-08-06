@@ -16,6 +16,9 @@
       <trans-unit id="MSC.no">
         <source>No</source>
       </trans-unit>
+      <trans-unit id="MSC.trainer">
+        <source>Trainer</source>
+      </trans-unit>
       <trans-unit id="MSC.basic">
         <source>Basic</source>
       </trans-unit>
