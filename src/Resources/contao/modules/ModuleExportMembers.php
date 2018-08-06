@@ -64,8 +64,8 @@ class ModuleExportMembers extends Contao\BackendModule
         // Define array to store labels and data
         $data = array();
 
-        // List of columns that should be selected (stop and disabled must be part of it)
-        $labels = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'membershipStatus', 'brevet', 'nitrox', 'divecard', 'start', 'stop', 'disable');
+        // List of columns that should be selected (stop, disabled and interested must be part of it)
+        $labels = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'membershipStatus', 'brevet', 'nitrox', 'divecard', 'start', 'stop', 'disable', 'interested');
 
         // Add Label to field ID
         if(\in_array('id', $labels))
@@ -146,11 +146,11 @@ class ModuleExportMembers extends Contao\BackendModule
         // Add Members
         foreach ($data as $d)
         {
-            if($d['disable'])
+            if($d['disable'] || $d['interested'])
             {
                 continue;
             }
-            unset($d['disable']);
+            unset($d['disable'], $d['interested']);
 
             $d = \implode($delimiter, $d);
             \array_push($csv, $d);
@@ -160,11 +160,11 @@ class ModuleExportMembers extends Contao\BackendModule
         \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['diveInformationDisable']);
         foreach ($data as $d)
         {
-            if(!$d['disable'])
+            if(!$d['disable'] || $d['interested'])
             {
                 continue;
             }
-            unset($d['disable']);
+            unset($d['disable'], $d['interested']);
 
             $d = \implode($delimiter, $d);
             \array_push($csv, $d);
@@ -174,11 +174,11 @@ class ModuleExportMembers extends Contao\BackendModule
         \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['interestedPeople']);
         foreach ($data as $d)
         {
-            if(!$d['disable'])
+            if(!$d['interested'])
             {
                 continue;
             }
-            unset($d['disable']);
+            unset($d['disable'], $d['interested']);
 
             $d = \implode($delimiter, $d);
             \array_push($csv, $d);
