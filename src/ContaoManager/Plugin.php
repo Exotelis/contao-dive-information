@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Exotelis\ContaoDiveInformationBundle\ContaoManager;
 
 use Contao\CoreBundle\ContaoCoreBundle;
+use Contao\NewsletterBundle\ContaoNewsletterBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Config\ConfigInterface;
@@ -38,6 +39,7 @@ class Plugin implements BundlePluginInterface
                 ->setLoadAfter(
                     [
                         ContaoCoreBundle::class,
+                        ContaoNewsletterBundle::class
                     ]
                 ),
         ];
