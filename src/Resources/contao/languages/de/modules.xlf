@@ -1,13 +1,25 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/modules.php" source-language="en" target-language="de">
     <body>
-      <trans-unit id="MOD.exportmembers.0">
-        <source>Member export</source>
-        <target>Mitglieder exportieren</target>
+      <trans-unit id="MOD.dive_information">
+        <source>Muräne</source>
+        <target>Muräne</target>
       </trans-unit>
-      <trans-unit id="MOD.exportmembers.1">
-        <source>Export the Member into an csv file</source>
-        <target>Mitglieder in eine csv Datei exportieren</target>
+      <trans-unit id="MOD.di_diver.0">
+        <source>Diver</source>
+        <target>Taucher</target>
+      </trans-unit>
+      <trans-unit id="MOD.di_diver.1">
+        <source>Manage Diver (Club Member)</source>
+        <target>Tauchkonten verwalten (Vereinsmitglieder)</target>
+      </trans-unit>
+      <trans-unit id="MOD.di_exportdiver.0">
+        <source>Diver export</source>
+        <target>Taucher exportieren</target>
+      </trans-unit>
+      <trans-unit id="MOD.di_exportdiver.1">
+        <source>Export all diver</source>
+        <target>Alle Taucher exportieren</target>
       </trans-unit>
     </body>
   </file>

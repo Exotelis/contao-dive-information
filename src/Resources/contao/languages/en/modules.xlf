@@ -1,11 +1,20 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/modules.php" source-language="en">
     <body>
-      <trans-unit id="MOD.exportmembers.0">
-        <source>Member export</source>
+      <trans-unit id="MOD.dive_information">
+        <source>Muräne</source>
       </trans-unit>
-      <trans-unit id="MOD.exportmembers.1">
-        <source>Export the Member into an csv file</source>
+      <trans-unit id="MOD.di_diver.0">
+        <source>Diver</source>
+      </trans-unit>
+      <trans-unit id="MOD.di_diver.1">
+        <source>Manage Diver (Club Member)</source>
+      </trans-unit>
+      <trans-unit id="MOD.di_exportdiver.0">
+        <source>Diver export</source>
+      </trans-unit>
+      <trans-unit id="MOD.di_exportdiver.1">
+        <source>Export all diver</source>
       </trans-unit>
     </body>
   </file>
