@@ -35,18 +35,34 @@ class ModuleExportDiver extends Contao\BackendModule
      */
     protected function compile()
     {
-        Contao\System::loadLanguageFile('tl_exportmembers');
+        Contao\System::loadLanguageFile('tl_exportdiver');
 
         $this->Template->href = $this->getReferer(true);
         $this->Template->title = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
         $this->Template->button = $GLOBALS['TL_LANG']['MSC']['backBT'];
 
-        $this->Template->headline = $GLOBALS['TL_LANG']['tl_exportmembers']['headline'];
+        $this->Template->headline = $GLOBALS['TL_LANG']['tl_exportdiver']['headline'];
         $this->Template->action = ampersand(Contao\Environment::get('request'));
-        $this->Template->submit = $GLOBALS['TL_LANG']['tl_exportmembers']['submit'];
+        $this->Template->submit = $GLOBALS['TL_LANG']['tl_exportdiver']['submit'];
 
-        if (Contao\Input::post('FORM_SUBMIT') == 'tl_exportmembers') {
-            $this->downloadFile($this->convertToCsv($this->getData()));
+        $this->Template->message = Contao\Message::generateUnwrapped(__CLASS__);
+
+        if (Contao\Input::post('FORM_SUBMIT') == 'tl_exportdiver')
+        {
+            // Check for data in table
+            $objRow = $this->Database->prepare("SELECT lastname FROM tl_diver LIMIT 1")
+                ->execute();
+            $num = $objRow->count();
+
+            if($num > 0)
+            {
+                $this->downloadFile($this->convertToCsv($this->getData()));
+            }
+            else
+            {
+                Contao\Message::addError($GLOBALS['TL_LANG']['tl_exportdiver']['noRecords'], __CLASS__);
+            }
+
             $this->reload();
         }
     }
@@ -54,27 +70,27 @@ class ModuleExportDiver extends Contao\BackendModule
     /**
      * Gets the data from the database
      *
-     * @return array Data Array with labels active and resigned members
+     * @return array|boolean Data Array with labels active and resigned members or false
      */
     private function getData()
     {
-        Contao\System::loadLanguageFile('tl_member');
-        $this->loadDataContainer('tl_member');
+        Contao\System::loadLanguageFile('tl_diver');
+        $this->loadDataContainer('tl_diver');
 
         // Define array to store labels and data
         $data = array('in' => array(), 'automaticout' => array(), 'out' => array(), 'interested' => array());
 
         // List of columns that should be selected (stop, disabled and interested must be part of it)
-        $labels = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'membershipStatus', 'brevet', 'nitrox', 'divecard', 'start', 'stop', 'disable', 'interested');
+        $labels = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'status', 'brevet', 'nitrox', 'divecard', 'start', 'stop', 'interested', 'disable');
 
         // Add Label to field ID
         if(\in_array('id', $labels))
         {
-            $GLOBALS['TL_DCA']['tl_member']['fields']['id']['label'] = $GLOBALS['TL_LANG']['tl_member']['memberId'];
+            $GLOBALS['TL_DCA']['tl_diver']['fields']['id']['label'] = $GLOBALS['TL_LANG']['tl_exportdiver']['memberId']; // TODO ????
         }
 
         // Get data from database
-        $objRow = $this->Database->prepare("SELECT " . implode(",", $labels) . " FROM tl_member ORDER BY lastname, firstname")
+        $objRow = $this->Database->prepare("SELECT " . implode(",", $labels) . " FROM tl_diver ORDER BY lastname, firstname")
             ->execute();
         $result = $objRow->fetchAllAssoc();
 
@@ -85,16 +101,16 @@ class ModuleExportDiver extends Contao\BackendModule
             foreach ($labels as $label)
             {
                 // Convert timestamps to date
-                if(\array_key_exists('eval', $GLOBALS['TL_DCA']['tl_member']['fields'][$label]) && \array_key_exists('rgxp', $GLOBALS['TL_DCA']['tl_member']['fields'][$label]['eval']))
+                if(\array_key_exists('eval', $GLOBALS['TL_DCA']['tl_diver']['fields'][$label]) && \array_key_exists('rgxp', $GLOBALS['TL_DCA']['tl_diver']['fields'][$label]['eval']))
                 {
-                    if($GLOBALS['TL_DCA']['tl_member']['fields'][$label]['eval']['rgxp'] === 'date' ||  $GLOBALS['TL_DCA']['tl_member']['fields'][$label]['eval']['rgxp'] === 'datim')
+                    if($GLOBALS['TL_DCA']['tl_diver']['fields'][$label]['eval']['rgxp'] === 'date')
                     {
                         $r[$label] = Contao\Date::parse(Contao\Config::get('dateFormat'), $r[$label]);
                     }
                 }
-                if(\array_key_exists('reference', $GLOBALS['TL_DCA']['tl_member']['fields'][$label]))
+                if(\array_key_exists('reference', $GLOBALS['TL_DCA']['tl_diver']['fields'][$label]))
                 {
-                    $r[$label] = $GLOBALS['TL_DCA']['tl_member']['fields'][$label]['reference'][$r[$label]];
+                    $r[$label] = $GLOBALS['TL_DCA']['tl_diver']['fields'][$label]['reference'][$r[$label]];
                 }
             }
 
@@ -109,7 +125,7 @@ class ModuleExportDiver extends Contao\BackendModule
                 unset($r['disable'], $r['interested']);
                 \array_push($data['out'], $r);
             }
-            elseif(!empty($r['stop']) && (int)$r['stop'] < \time())
+            elseif(!empty($r['stop']) && strtotime($r['stop']) < \time())
             {
                 unset($r['disable'], $r['interested']);
                 \array_push($data['automaticout'], $r);
@@ -134,23 +150,39 @@ class ModuleExportDiver extends Contao\BackendModule
     private function convertToCsv($data, $delimiter = ';')
     {
         $csv = array();
-        $temp = array();
 
         // Set header
-        foreach ($data['in'][0] as $k => $v) {
-            if (\is_array($GLOBALS['TL_DCA']['tl_member']['fields'][$k]['label'])) {
-                $temp['header'][$k] = $GLOBALS['TL_DCA']['tl_member']['fields'][$k]['label'][0];
+        if(count($data['in']) > 0)
+        {
+            $labels = $data['in'][0];
+        }
+        elseif(count($data['automaticout']) > 0)
+        {
+            $labels = $data['automaticout'][0];
+        }
+        elseif(count($data['out']) > 0)
+        {
+            $labels = $data['out'][0];
+        }
+        elseif(count($data['interested']) > 0)
+        {
+            $labels = $data['interested'][0];
+        }
+        else
+        {
+            die('No data in valid arrays found');
+        }
+
+        foreach ($labels as $k => $v) {
+            if (\is_array($GLOBALS['TL_DCA']['tl_diver']['fields'][$k]['label'])) {
+                $csv['header'][$k] = $GLOBALS['TL_DCA']['tl_diver']['fields'][$k]['label'][0];
             } else {
-                $temp['header'][$k] = $GLOBALS['TL_DCA']['tl_member']['fields'][$k]['label'];
+                $csv['header'][$k] = $GLOBALS['TL_DCA']['tl_diver']['fields'][$k]['label'];
             }
         }
 
-        // Alternativ translations
-        $temp['header']['start'] = &$GLOBALS['TL_LANG']['tl_member']['diveInformationStart'];
-        $temp['header']['stop'] = &$GLOBALS['TL_LANG']['tl_member']['diveInformationStop'];
-
         // Add header
-        $csv['header'] = \implode($delimiter, $temp['header']);
+        $csv['header'] = \implode($delimiter, $csv['header']);
 
         // Add Members
         foreach ($data['in'] as $d)
@@ -160,7 +192,7 @@ class ModuleExportDiver extends Contao\BackendModule
         }
 
         // add automatic resigned member
-        \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['automaticallyResigned']);
+        \array_push($csv, $GLOBALS['TL_LANG']['tl_exportdiver']['automaticallyResigned']);
         foreach ($data['automaticout'] as $d)
         {
             $d = \implode($delimiter, $d);
@@ -168,7 +200,7 @@ class ModuleExportDiver extends Contao\BackendModule
         }
 
         // Add old Members
-        \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['diveInformationDisable']);
+        \array_push($csv, $GLOBALS['TL_LANG']['tl_exportdiver']['resign']);
         foreach ($data['out'] as $d)
         {
             $d = \implode($delimiter, $d);
@@ -176,7 +208,7 @@ class ModuleExportDiver extends Contao\BackendModule
         }
 
         // Interested people
-        \array_push($csv, $GLOBALS['TL_LANG']['tl_member']['interestedPeople']);
+        \array_push($csv, $GLOBALS['TL_LANG']['tl_exportdiver']['interested']);
         foreach ($data['interested'] as $d)
         {
             $d = \implode($delimiter, $d);
@@ -194,14 +226,14 @@ class ModuleExportDiver extends Contao\BackendModule
      */
     private function downloadFile($data)
     {
-        $objFile = new Contao\File('/files/memberlist.csv');
+        $objFile = new Contao\File('/files/di_exportdiver.csv');
         foreach($data as $d)
         {
             $objFile->append(\utf8_decode($d));
         }
         $objFile->close();
 
-        $filename = $GLOBALS['TL_LANG']['tl_exportmembers']['listOfMembers'] . ' ' . Contao\Date::parse(Contao\Config::get('dateFormat'), \time()) . '.csv';
+        $filename = $GLOBALS['TL_LANG']['tl_exportdiver']['listOfMembers'] . ' ' . Contao\Date::parse(Contao\Config::get('dateFormat'), \time()) . '.csv';
         header('Content-Type: application/csv');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         echo $objFile->getContent();
