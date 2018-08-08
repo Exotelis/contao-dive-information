@@ -1,12 +1,16 @@
-.tl_exportmembers {
+.tl_exportdiver {
     border-top: 1px solid #e6e6e8;
 }
 
-.tl_exportmembers h2.sub_headline {
+.tl_exportdiver h2.sub_headline {
     margin: 18px 15px 3px;
 }
 
-.tl_exportmembers .tl_submit_container {
+.tl_exportdiver .tl_message {
+    margin: 15px 0;
+}
+
+.tl_exportdiver .tl_submit_container {
     background: 0 0;
     padding: 0 15px 24px;
     border: 0;
