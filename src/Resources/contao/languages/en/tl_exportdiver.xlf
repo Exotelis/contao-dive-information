@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/tl_exportmembers.php" source-language="en">
+    <body>
+      <trans-unit id="tl_exportdiver.headline">
+        <source>Export club member</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.submit">
+        <source>Export as csv</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.listOfMembers">
+        <source>List of members - Last updated</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.memberId">
+        <source>Member ID</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.resign">
+        <source>Resigned from club</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.automaticallyResigned">
+        <source>Resigned automatically</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.interested">
+        <source>Interested to join the club</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.noRecords">
+        <source>No records found in diver database</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
