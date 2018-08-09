@@ -34,6 +34,14 @@
         <source>Delete diver ID %s</source>
         <target>Taucher ID %s löschen</target>
       </trans-unit>
+      <trans-unit id="tl_member.toggle.0">
+        <source>Activate/deactivate divers membership</source>
+        <target>Mitgliedschaft aktivieren/deaktivieren</target>
+      </trans-unit>
+      <trans-unit id="tl_member.toggle.1">
+        <source>Activate/deactivate membership of diver ID %s</source>
+        <target>Mitgliedschaft von Taucher ID %s aktivieren/deaktivieren</target>
+      </trans-unit>
       <trans-unit id="tl_diver.personal_legend">
         <source>Personal data</source>
         <target>Personendaten</target>
