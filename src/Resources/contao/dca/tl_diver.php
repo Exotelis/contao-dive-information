@@ -18,8 +18,12 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
     // Config
     'config' => array
     (
-        'dataContainer'    => 'Table',
+        'dataContainer'     => 'Table',
         'enableVersioning'  => true,
+        'onload_callback'   => array
+        (
+            array('Exotelis\Newsletter', 'updateAccount')
+        ),
         'sql'               => array
         (
             'keys' => array
@@ -83,7 +87,7 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
     // Palettes
     'palettes' => array
     (
-        'default'  => '{personal_legend},firstname,lastname,dateOfBirth,gender;{address_legend},street,postal,city;{contact_legend},phone,mobile,email;{dive_legend},status,brevet,nitrox,divecard;{account_legend},disable,interested,start,stop',
+        'default'  => '{personal_legend},firstname,lastname,dateOfBirth,gender;{address_legend},street,postal,city;{contact_legend},phone,mobile,email;{dive_legend},status,brevet,nitrox,divecard;{newsletter_legend},newsletter;{account_legend},disable,interested,start,stop',
     ),
 
     // Fields
@@ -268,7 +272,24 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
             'filter'                => true,
             'inputType'             => 'checkbox',
             'eval'                  => array('tl_class'=>'w50'),
-            'sql'                   => "char(1) NOT NULL default ''"
+            'sql'                   => "char(1) NOT NULL default ''",
+            'save_callback'         => array
+            (
+                array('Exotelis\Newsletter', 'onToggleVisibility')
+            )
+        ),
+        'newsletter' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_diver']['newsletter'],
+            'exclude'                 => true,
+            'inputType'               => 'checkbox',
+            'options_callback'        => array('Contao\Newsletter', 'getNewsletters'),
+            'eval'                    => array('multiple'=>true),
+            'save_callback' => array
+            (
+                array('Exotelis\Newsletter', 'synchronize')
+            ),
+            'sql'                     => "blob NULL"
         )
     )
 );
