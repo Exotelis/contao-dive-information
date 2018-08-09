@@ -43,66 +43,8 @@ class Newsletter extends Contao\Newsletter
             return;
         }
 
-        // Edit account
-        if (\Input::get('act') == 'edit')
-        {
-            $objUser = $this->Database->prepare("SELECT email, disable FROM tl_diver WHERE id=?")
-                ->limit(1)
-                ->execute($intUser);
-
-            if ($objUser->numRows)
-            {
-                $strEmail = \Input::post('email', true);
-
-                // E-mail address has changed
-                if (!empty($_POST) && $strEmail != '' && $strEmail != $objUser->email)
-                {
-                    $objCount = $this->Database->prepare("SELECT COUNT(*) AS count FROM tl_newsletter_recipients WHERE email=?")
-                        ->execute($strEmail);
-
-                    // Delete the old subscription if the new e-mail address exists (see #19)
-                    if ($objCount->count > 0)
-                    {
-                        $this->Database->prepare("DELETE FROM tl_newsletter_recipients WHERE email=?")
-                            ->execute($objUser->email);
-                    }
-                    else
-                    {
-                        $this->Database->prepare("UPDATE tl_newsletter_recipients SET email=? WHERE email=?")
-                            ->execute($strEmail, $objUser->email);
-                    }
-
-                    $objUser->email = $strEmail;
-                }
-
-                $objSubscriptions = $this->Database->prepare("SELECT pid FROM tl_newsletter_recipients WHERE email=?")
-                    ->execute($objUser->email);
-
-                if ($objSubscriptions->numRows)
-                {
-                    $strNewsletters = serialize($objSubscriptions->fetchEach('pid'));
-                }
-                else
-                {
-                    $strNewsletters = '';
-                }
-
-                $this->Database->prepare("UPDATE tl_diver SET newsletter=? WHERE id=?")
-                    ->execute($strNewsletters, $intUser);
-
-                // Check activation status
-                if (!empty($_POST) && \Input::post('disable') != $objUser->disable)
-                {
-                    $this->Database->prepare("UPDATE tl_newsletter_recipients SET active=? WHERE email=?")
-                        ->execute((\Input::post('disable') ? '' : 1), $objUser->email);
-
-                    $objUser->disable = \Input::post('disable');
-                }
-            }
-        }
-
         // Delete account
-        elseif (\Input::get('act') == 'delete')
+        if (\Input::get('act') == 'delete')
         {
             $objUser = $this->Database->prepare("SELECT email FROM tl_diver WHERE id=?")
                 ->limit(1)
