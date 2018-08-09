@@ -50,17 +50,17 @@ class ModuleExportDiver extends Contao\BackendModule
         if (Contao\Input::post('FORM_SUBMIT') == 'tl_exportdiver')
         {
             // Check for data in table
-            $objRow = $this->Database->prepare("SELECT lastname FROM tl_diver LIMIT 1")
+            $objRow = $this->Database->prepare("SELECT lastname FROM tl_diver")
+                ->limit(1)
                 ->execute();
-            $num = $objRow->count();
 
-            if($num > 0)
+            if($objRow->numRows < 1)
             {
-                $this->downloadFile($this->convertToCsv($this->getData()));
+                Contao\Message::addError($GLOBALS['TL_LANG']['tl_exportdiver']['noRecords'], __CLASS__);
             }
             else
             {
-                Contao\Message::addError($GLOBALS['TL_LANG']['tl_exportdiver']['noRecords'], __CLASS__);
+                $this->downloadFile($this->convertToCsv($this->getData()));
             }
 
             $this->reload();
