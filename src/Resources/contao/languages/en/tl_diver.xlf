@@ -131,6 +131,18 @@
       <trans-unit id="tl_diver.divecard.1">
         <source>Please select the aqua med divecard.</source>
       </trans-unit>
+      <trans-unit id="tl_diver.newsletter.0">
+        <source>Newsletters</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.newsletter.1">
+        <source>Here you can manage the divers's subscriptions.</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.newsletter_legend">
+        <source>Subscriptions</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.newsletterDetails">
+        <source>Subscriptions</source>
+      </trans-unit>
       <trans-unit id="tl_diver.disable.0">
         <source>Deactivate Membership</source>
       </trans-unit>

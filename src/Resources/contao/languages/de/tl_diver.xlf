@@ -174,6 +174,22 @@
         <source>Please select the aqua med divecard.</source>
         <target>Bitte wählen Sie die aqua med Divecard.</target>
       </trans-unit>
+      <trans-unit id="tl_diver.newsletter.0">
+        <source>Newsletters</source>
+        <target>Newsletter</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.newsletter.1">
+        <source>Here you can manage the divers's subscriptions.</source>
+        <target>Hier können Sie die Abonnements des Tauchers verwalten.</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.newsletter_legend">
+        <source>Subscriptions</source>
+        <target>Abonnements</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.newsletterDetails">
+        <source>Subscriptions</source>
+        <target>Abonnements</target>
+      </trans-unit>
       <trans-unit id="tl_diver.disable.0">
         <source>Deactivate Membership</source>
         <target>Mitgliedschaft deaktivieren</target>
