@@ -26,10 +26,10 @@
       <trans-unit id="tl_diver.delete.1">
         <source>Delete diver ID %s</source>
       </trans-unit>
-      <trans-unit id="tl_member.toggle.0">
+      <trans-unit id="tl_diver.toggle.0">
         <source>Activate/deactivate divers membership</source>
       </trans-unit>
-      <trans-unit id="tl_member.toggle.1">
+      <trans-unit id="tl_diver.toggle.1">
         <source>Activate/deactivate membership of diver ID %s</source>
       </trans-unit>
       <trans-unit id="tl_diver.personal_legend">

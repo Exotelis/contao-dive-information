@@ -75,6 +75,13 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
                 'icon'                => 'delete.svg',
                 'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
             ),
+            'toggle' => array
+            (
+                'label'               => &$GLOBALS['TL_LANG']['tl_diver']['toggle'],
+                'icon'                => 'visible.svg',
+                'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
+                'button_callback'     => array('tl_diver', 'toggleIcon')
+            ),
             'show' => array
             (
                 'label'               => &$GLOBALS['TL_LANG']['tl_diver']['show'],
@@ -302,6 +309,15 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
 class tl_diver extends Contao\Backend
 {
     /**
+     * Import the back end user object
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->import('BackendUser', 'User');
+    }
+
+    /**
      * Add an image to each record
      * @param array         $row
      * @param string        $label
@@ -313,18 +329,18 @@ class tl_diver extends Contao\Backend
     public function updateLabel($row, $label, DataContainer $dc, $args)
     {
         /** Convert tstamp to label */
-        if(!empty($row['start']))
+        if (!empty($row['start']))
         {
             $key = \array_search($row['start'], $args);
-            if($key)
+            if ($key)
             {
                 $args[$key] = Contao\Date::parse(Contao\Config::get('dateFormat'), $args[$key]);
             }
         }
-        if(!empty($row['stop']))
+        if (!empty($row['stop']))
         {
             $key = \array_search($row['stop'], $args);
-            if($key)
+            if ($key)
             {
                 $args[$key] = Contao\Date::parse(Contao\Config::get('dateFormat'), $args[$key]);
             }
@@ -341,5 +357,135 @@ class tl_diver extends Contao\Backend
         $args[0] = sprintf('<div class="list_icon_new" style="background-image:url(\'%s\')" data-icon="%s.svg" data-icon-disabled="%s.svg">&nbsp;</div>', Image::getPath($image), $disabled ? $image : \rtrim($image, '_'), \rtrim($image, '_') . '_');
 
         return $args;
+    }
+
+    /**
+     * Return the "toggle visibility" button
+     *
+     * @param array  $row
+     * @param string $href
+     * @param string $label
+     * @param string $title
+     * @param string $icon
+     * @param string $attributes
+     *
+     * @return string
+     */
+    public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
+    {
+        if (!empty(Input::get('tid')) && \strlen(Input::get('tid')))
+        {
+            $this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null));
+            $this->redirect($this->getReferer());
+        }
+        // Check permissions AFTER checking the tid, so hacking attempts are logged
+        if (!$this->User->hasAccess('tl_diver::disable', 'alexf'))
+        {
+            return '';
+        }
+        $href .= '&amp;tid='.$row['id'].'&amp;state='.$row['disable'];
+        if ($row['disable'])
+        {
+            $icon = 'invisible.svg';
+        }
+        return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['disable'] ? 0 : 1) . '"').'</a> ';
+    }
+
+    /**
+     * Disable/enable a diver
+     *
+     * @param integer       $intId
+     * @param boolean       $blnVisible
+     * @param DataContainer $dc
+     *
+     * @throws Contao\CoreBundle\Exception\AccessDeniedException
+     */
+    public function toggleVisibility($intId, $blnVisible, DataContainer $dc=null)
+    {
+        // Set the ID and action
+        Input::setGet('id', $intId);
+        Input::setGet('act', 'toggle');
+        if ($dc)
+        {
+            $dc->id = $intId; // see #8043
+        }
+        // Trigger the onload_callback
+        if (\is_array($GLOBALS['TL_DCA']['tl_diver']['config']['onload_callback']))
+        {
+            foreach ($GLOBALS['TL_DCA']['tl_diver']['config']['onload_callback'] as $callback)
+            {
+                if (\is_array($callback))
+                {
+                    $this->import($callback[0]);
+                    $this->{$callback[0]}->{$callback[1]}($dc);
+                }
+                elseif (\is_callable($callback))
+                {
+                    $callback($dc);
+                }
+            }
+        }
+        // Check the field access
+        if (!$this->User->hasAccess('tl_diver::disable', 'alexf'))
+        {
+            throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to activate/deactivate diver ID ' . $intId . '.');
+        }
+        // Set the current record
+        if ($dc)
+        {
+            $objRow = $this->Database->prepare("SELECT * FROM tl_diver WHERE id=?")
+                ->limit(1)
+                ->execute($intId);
+            if ($objRow->numRows)
+            {
+                $dc->activeRecord = $objRow;
+            }
+        }
+        $objVersions = new Versions('tl_diver', $intId);
+        $objVersions->initialize();
+        // Reverse the logic (diver have disabled=1)
+        $blnVisible = !$blnVisible;
+        // Trigger the save_callback
+        if (\is_array($GLOBALS['TL_DCA']['tl_diver']['fields']['disable']['save_callback']))
+        {
+            foreach ($GLOBALS['TL_DCA']['tl_diver']['fields']['disable']['save_callback'] as $callback)
+            {
+                if (\is_array($callback))
+                {
+                    $this->import($callback[0]);
+                    $blnVisible = $this->{$callback[0]}->{$callback[1]}($blnVisible, $dc);
+                }
+                elseif (\is_callable($callback))
+                {
+                    $blnVisible = $callback($blnVisible, $dc);
+                }
+            }
+        }
+        $time = time();
+        // Update the database
+        $this->Database->prepare("UPDATE tl_diver SET tstamp=$time, disable='" . ($blnVisible ? '1' : '') . "' WHERE id=?")
+            ->execute($intId);
+        if ($dc)
+        {
+            $dc->activeRecord->tstamp = $time;
+            $dc->activeRecord->disable = ($blnVisible ? '1' : '');
+        }
+        // Trigger the onsubmit_callback
+        if (\is_array($GLOBALS['TL_DCA']['tl_diver']['config']['onsubmit_callback']))
+        {
+            foreach ($GLOBALS['TL_DCA']['tl_diver']['config']['onsubmit_callback'] as $callback)
+            {
+                if (\is_array($callback))
+                {
+                    $this->import($callback[0]);
+                    $this->{$callback[0]}->{$callback[1]}($dc);
+                }
+                elseif (\is_callable($callback))
+                {
+                    $callback($dc);
+                }
+            }
+        }
+        $objVersions->create();
     }
 }
