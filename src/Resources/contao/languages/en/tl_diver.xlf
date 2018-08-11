@@ -200,6 +200,12 @@
       <trans-unit id="tl_diver.professional">
         <source>Professional</source>
       </trans-unit>
+      <trans-unit id="tl_diver.ERR.mailMandatory">
+        <source>Field &quot;E-mail address&quot; must not be empty if a &quot;newsletter&quot; is selected!</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.ERR.disableInterested">
+        <source>It's not allowed that the diver is &quot;disabled&quot; and &quot;interested&quot; at the same time!</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

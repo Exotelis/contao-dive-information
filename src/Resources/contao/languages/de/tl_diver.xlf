@@ -266,6 +266,14 @@
         <source>Professional</source>
         <target>Professional</target>
       </trans-unit>
+      <trans-unit id="tl_diver.ERR.mailMandatory">
+        <source>Field &quot;E-mail address&quot; must not be empty if a &quot;newsletter&quot; is selected!</source>
+        <target>Bitte füllen Sie das Feld &quot;E-Mail-Adresse&quot; aus, wenn ein &quot;Newsletter&quot; ausgewählt ist!</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.ERR.disableInterested">
+        <source>It's not allowed that the diver is &quot;disabled&quot; and &quot;interested&quot; at the same time!</source>
+        <target>Es ist nicht zulässig das der Taucher &quot;deaktiviert&quot; und gleichzeitig &quot;interessiert&quot; ist!</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
