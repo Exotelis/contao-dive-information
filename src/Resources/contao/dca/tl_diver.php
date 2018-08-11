@@ -177,61 +177,65 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
         ),
         'phone' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_diver']['phone'],
-            'exclude'                 => true,
-            'search'                  => true,
-            'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>64, 'rgxp'=>'phone', 'decodeEntities'=>true, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(64) NOT NULL default ''"
+            'label'                 => &$GLOBALS['TL_LANG']['tl_diver']['phone'],
+            'exclude'               => true,
+            'search'                => true,
+            'inputType'             => 'text',
+            'eval'                  => array('maxlength'=>64, 'rgxp'=>'phone', 'decodeEntities'=>true, 'tl_class'=>'w50'),
+            'sql'                   => "varchar(64) NOT NULL default ''"
         ),
         'mobile' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_diver']['mobile'],
-            'exclude'                 => true,
-            'search'                  => true,
-            'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>64, 'rgxp'=>'phone', 'decodeEntities'=>true, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(64) NOT NULL default ''"
+            'label'                 => &$GLOBALS['TL_LANG']['tl_diver']['mobile'],
+            'exclude'               => true,
+            'search'                => true,
+            'inputType'             => 'text',
+            'eval'                  => array('maxlength'=>64, 'rgxp'=>'phone', 'decodeEntities'=>true, 'tl_class'=>'w50'),
+            'sql'                   => "varchar(64) NOT NULL default ''"
         ),
         'email' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_diver']['email'],
-            'exclude'                 => true,
-            'search'                  => true,
-            'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>255, 'rgxp'=>'email', 'unique'=>true, 'decodeEntities'=>true, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(255) NOT NULL default ''"
+            'label'                 => &$GLOBALS['TL_LANG']['tl_diver']['email'],
+            'exclude'               => true,
+            'search'                => true,
+            'inputType'             => 'text',
+            'eval'                  => array('maxlength'=>255, 'rgxp'=>'email', 'unique'=>true, 'decodeEntities'=>true, 'tl_class'=>'w50'),
+            'sql'                   => "varchar(255) NOT NULL default ''",
+            'save_callback'         => array
+            (
+                array('tl_diver', 'checkEmailNewsletter')
+            )
         ),
         'status' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_diver']['status'],
-            'exclude'                 => true,
-            'filter'                  => true,
-            'inputType'               => 'select',
-            'options'                 => array('active', 'passive', 'child'),
-            'reference'               => &$GLOBALS['TL_LANG']['tl_diver'],
-            'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(10) NOT NULL default ''"
+            'label'                 => &$GLOBALS['TL_LANG']['tl_diver']['status'],
+            'exclude'               => true,
+            'filter'                => true,
+            'inputType'             => 'select',
+            'options'               => array('active', 'passive', 'child'),
+            'reference'             => &$GLOBALS['TL_LANG']['tl_diver'],
+            'eval'                  => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
+            'sql'                   => "varchar(10) NOT NULL default ''"
         ),
         'brevet' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_diver']['brevet'],
-            'exclude'                 => true,
-            'filter'                  => true,
-            'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>32, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(32) NOT NULL default ''"
+            'label'                 => &$GLOBALS['TL_LANG']['tl_diver']['brevet'],
+            'exclude'               => true,
+            'filter'                => true,
+            'inputType'             => 'text',
+            'eval'                  => array('maxlength'=>32, 'tl_class'=>'w50'),
+            'sql'                   => "varchar(32) NOT NULL default ''"
         ),
         'nitrox' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_diver']['nitrox'],
-            'exclude'                 => true,
-            'filter'                  => true,
-            'inputType'               => 'select',
-            'options'                 => array('yes', 'no', 'trainer'),
-            'reference'               => &$GLOBALS['TL_LANG']['tl_diver'],
-            'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(10) NOT NULL default ''"
+            'label'                 => &$GLOBALS['TL_LANG']['tl_diver']['nitrox'],
+            'exclude'               => true,
+            'filter'                => true,
+            'inputType'             => 'select',
+            'options'               => array('yes', 'no', 'trainer'),
+            'reference'             => &$GLOBALS['TL_LANG']['tl_diver'],
+            'eval'                  => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
+            'sql'                   => "varchar(10) NOT NULL default ''"
         ),
         'divecard' => array
         (
@@ -270,7 +274,11 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
             'filter'                => true,
             'inputType'             => 'checkbox',
             'eval'                  => array('tl_class'=>'w50'),
-            'sql'                   => "char(1) NOT NULL default ''"
+            'sql'                   => "char(1) NOT NULL default ''",
+            'save_callback' => array
+            (
+                array('tl_diver', 'checkDisableInterested')
+            )
         ),
         'disable' => array
         (
@@ -282,6 +290,8 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
             'sql'                   => "char(1) NOT NULL default ''",
             'save_callback'         => array
             (
+
+                array('tl_diver', 'checkDisableInterested'),
                 array('Exotelis\Newsletter', 'onToggleVisibility')
             )
         ),
@@ -294,7 +304,8 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
             'eval'                    => array('multiple'=>true),
             'save_callback' => array
             (
-                array('Exotelis\Newsletter', 'synchronize')
+                array('Exotelis\Newsletter', 'synchronize'),
+                array('tl_diver', 'checkEmailNewsletter')
             ),
             'sql'                     => "blob NULL"
         )
@@ -315,6 +326,56 @@ class tl_diver extends Contao\Backend
     {
         parent::__construct();
         $this->import('BackendUser', 'User');
+    }
+
+    /**
+     * Throws and error if a newsletter is selected but the email is empty
+     *
+     * @param string $varValue      The value of the field
+     * @param DataContainer $dc     The DataContainer object
+     *
+     * @throws Exception
+     *
+     * @return string               The value of the field
+     */
+    public function checkEmailNewsletter($varValue, DataContainer $dc)
+    {
+        // Get value of input field email and newsletter
+        $email = $dc->Input->post('email');
+        $newsletter = $dc->Input->post('newsletter');
+
+        // If a newsletter is selected and and email is empty throw an error
+        if(empty($email) && $newsletter != NULL)
+        {
+            throw new \Exception($GLOBALS['TL_LANG']['tl_diver']['ERR']['mailMandatory']);
+        }
+
+        return $varValue;
+    }
+
+    /**
+     * Throws and error the diver is disable and interested at the same time
+     *
+     * @param string $varValue      The value of the field
+     * @param DataContainer $dc     The DataContainer object
+     *
+     * @throws Exception
+     *
+     * @return string               The value of the field
+     */
+    public function checkdisableInterested($varValue, DataContainer $dc)
+    {
+        // Get value of input field email and newsletter
+        $disable = $dc->Input->post('disable');
+        $interested = $dc->Input->post('interested');
+
+        // If a newsletter is selected and and email is empty throw an error
+        if($disable && $interested)
+        {
+            throw new \Exception($GLOBALS['TL_LANG']['tl_diver']['ERR']['disableInterested']);
+        }
+
+        return $varValue;
     }
 
     /**
