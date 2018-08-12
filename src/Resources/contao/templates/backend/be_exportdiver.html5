@@ -17,6 +17,20 @@
       <input type="hidden" name="REQUEST_TOKEN" value="<?= REQUEST_TOKEN ?>">
     </div>
 
+    <fieldset class="tl_tbox nolegend">
+      <div class="w50">
+        <h3><label for="ctrl_filetype"><?= $this->filetypesLabel ?></label></h3>
+        <select id="ctrl_filetype" name="filetype" class="tl_select">
+          <?php foreach ($this->filetypes as $key => $value): ?>
+          <option value="<?= $key ?>"><?= $value ?></option>
+          <?php endforeach; ?>
+        </select>
+        <?php if ($this->filetypesHelp): ?>
+        <p class="tl_help tl_tip"><?= $this->filetypesHelp ?></p>
+        <?php endif; ?>
+      </div>
+    </fieldset>
+
     <div class="tl_submit_container">
       <button type="submit" name="exportdiver" class="tl_submit"><?= $this->submit ?></button>
     </div>
