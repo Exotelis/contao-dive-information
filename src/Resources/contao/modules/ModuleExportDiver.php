@@ -16,6 +16,8 @@ declare(strict_types=1);
 namespace Exotelis;
 
 use Contao;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * Back end module "Export Members".
@@ -37,6 +39,12 @@ class ModuleExportDiver extends Contao\BackendModule
     {
         Contao\System::loadLanguageFile('tl_exportdiver');
 
+        // Fields to be exported
+        $fields = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'status', 'brevet', 'nitrox', 'divecard', 'start', 'stop');
+
+        // Allowed filetypes
+        $filetypes = array('xlsx' => 'Xlsx');
+
         // Define template variables
         $this->Template->href = $this->getReferer(true);
         $this->Template->title = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
@@ -44,7 +52,7 @@ class ModuleExportDiver extends Contao\BackendModule
 
         $this->Template->headline = $GLOBALS['TL_LANG']['tl_exportdiver']['headline'];
         $this->Template->action = ampersand(Contao\Environment::get('request'));
-        $this->Template->filetypes = array('xlsx' => 'Xlsx');
+        $this->Template->filetypes = $filetypes;
         $this->Template->filetypesLabel = $GLOBALS['TL_LANG']['tl_exportdiver']['filetypesLabel'];
         $this->Template->filetypesHelp = $GLOBALS['TL_LANG']['tl_exportdiver']['filetypesHelp'];
         $this->Template->submit = $GLOBALS['TL_LANG']['tl_exportdiver']['submit'];
@@ -64,7 +72,16 @@ class ModuleExportDiver extends Contao\BackendModule
             }
             else
             {
-                $this->downloadFile($this->convertToCsv($this->getData()));
+                $filetype = Contao\Input::post('filetype');
+                if ($filetype === 'xlsx')
+                {
+                    $data = $this->getData($fields);
+                    $this->createXlsx($fields, $data);
+                }
+                else
+                {
+                    Contao\Message::addError(\sprintf($GLOBALS['TL_LANG']['tl_exportdiver']['invalidType'], $filetype), __CLASS__);
+                }
             }
 
             $this->reload();
@@ -72,29 +89,36 @@ class ModuleExportDiver extends Contao\BackendModule
     }
 
     /**
-     * Gets the data from the database
+     * Gets the data from the database and stores them in a multidimensional array separated by the activity status of the divers
+     * in = still active members
+     * automaticout = if the stop date is in the past
+     * out = members who resigned
+     * interested = people who are interested to join the club
      *
-     * @return array|boolean Data Array with labels active and resigned members or false
+     * @param   array           Fields to be exported
+     *
+     * @return  array|boolean   Data Array with labels active and resigned members or false
      */
-    private function getData()
+    protected function getData($fields)
     {
         Contao\System::loadLanguageFile('tl_diver');
         $this->loadDataContainer('tl_diver');
 
-        // Define array to store labels and data
+        // Define array to store the data in their categories
         $data = array('in' => array(), 'automaticout' => array(), 'out' => array(), 'interested' => array());
 
         // List of columns that should be selected (stop, disabled and interested must be part of it)
-        $labels = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'status', 'brevet', 'nitrox', 'divecard', 'start', 'stop', 'interested', 'disable');
-
-        // Add Label to field ID
-        if(\in_array('id', $labels))
+        if (!\in_array ( 'disable' , $fields))
         {
-            $GLOBALS['TL_DCA']['tl_diver']['fields']['id']['label'] = $GLOBALS['TL_LANG']['tl_exportdiver']['memberId']; // TODO ????
+            \array_push($fields, 'disable');
+        }
+        if (!\in_array ( 'interested' , $fields))
+        {
+            \array_push($fields, 'interested');
         }
 
         // Get data from database
-        $objRow = $this->Database->prepare("SELECT " . implode(",", $labels) . " FROM tl_diver ORDER BY lastname, firstname")
+        $objRow = $this->Database->prepare("SELECT " . implode(",", $fields) . " FROM tl_diver ORDER BY lastname, firstname")
             ->execute();
         $result = $objRow->fetchAllAssoc();
 
@@ -102,7 +126,7 @@ class ModuleExportDiver extends Contao\BackendModule
         foreach($result as $r)
         {
             // Set labels and convert and translate data
-            foreach ($labels as $label)
+            foreach ($fields as $label)
             {
                 // Convert timestamps to date
                 if(\array_key_exists('eval', $GLOBALS['TL_DCA']['tl_diver']['fields'][$label]) && \array_key_exists('rgxp', $GLOBALS['TL_DCA']['tl_diver']['fields'][$label]['eval']))
@@ -121,27 +145,34 @@ class ModuleExportDiver extends Contao\BackendModule
             // Push data
             if($r['interested'])
             {
-                unset($r['disable'], $r['interested']);
                 \array_push($data['interested'], $r);
             }
             elseif($r['disable'])
             {
-                unset($r['disable'], $r['interested']);
                 \array_push($data['out'], $r);
             }
             elseif(!empty($r['stop']) && strtotime($r['stop']) < \time())
             {
-                unset($r['disable'], $r['interested']);
                 \array_push($data['automaticout'], $r);
             }
             else
             {
-                unset($r['disable'], $r['interested']);
                 \array_push($data['in'], $r);
             }
         }
 
         return $data;
+    }
+
+    /**
+     * Creates a Xlsx file based on the data from the database
+     *
+     * @param array $header List of the headers
+     * @param array $data   The data of the member
+     */
+    protected function createXlsx($header, $data)
+    {
+
     }
 
     /**
