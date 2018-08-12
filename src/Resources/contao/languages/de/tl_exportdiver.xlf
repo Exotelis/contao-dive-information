@@ -6,9 +6,17 @@
         <source>Export club member</source>
         <target>Exportiere Vereinsmitglieder</target>
       </trans-unit>
+      <trans-unit id="tl_exportdiver.filetypesLabel">
+        <source>File type</source>
+        <target>Dateityp</target>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.filetypesHelp">
+        <source>Please select the file type of the file to be exported.</source>
+        <target>Bitte wählen Sie den Dateityp der zu exportierenden Datei.</target>
+      </trans-unit>
       <trans-unit id="tl_exportdiver.submit">
-        <source>Export as csv</source>
-        <target>Exportiere als CSV</target>
+        <source>Export file</source>
+        <target>Exportiere Datei</target>
       </trans-unit>
       <trans-unit id="tl_exportdiver.listOfMembers">
         <source>List of members - Last updated</source>

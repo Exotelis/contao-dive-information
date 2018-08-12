@@ -5,8 +5,14 @@
       <trans-unit id="tl_exportdiver.headline">
         <source>Export club member</source>
       </trans-unit>
+      <trans-unit id="tl_exportdiver.filetypesLabel">
+        <source>File type</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.filetypesHelp">
+        <source>Please select the file type of the file to be exported.</source>
+      </trans-unit>
       <trans-unit id="tl_exportdiver.submit">
-        <source>Export as csv</source>
+        <source>Export file</source>
       </trans-unit>
       <trans-unit id="tl_exportdiver.listOfMembers">
         <source>List of members - Last updated</source>
