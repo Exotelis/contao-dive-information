@@ -37,12 +37,16 @@ class ModuleExportDiver extends Contao\BackendModule
     {
         Contao\System::loadLanguageFile('tl_exportdiver');
 
+        // Define template variables
         $this->Template->href = $this->getReferer(true);
         $this->Template->title = \StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']);
         $this->Template->button = $GLOBALS['TL_LANG']['MSC']['backBT'];
 
         $this->Template->headline = $GLOBALS['TL_LANG']['tl_exportdiver']['headline'];
         $this->Template->action = ampersand(Contao\Environment::get('request'));
+        $this->Template->filetypes = array('xlsx' => 'Xlsx');
+        $this->Template->filetypesLabel = $GLOBALS['TL_LANG']['tl_exportdiver']['filetypesLabel'];
+        $this->Template->filetypesHelp = $GLOBALS['TL_LANG']['tl_exportdiver']['filetypesHelp'];
         $this->Template->submit = $GLOBALS['TL_LANG']['tl_exportdiver']['submit'];
 
         $this->Template->message = Contao\Message::generateUnwrapped(__CLASS__);
