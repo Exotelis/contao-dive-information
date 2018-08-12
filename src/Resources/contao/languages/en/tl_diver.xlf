@@ -47,6 +47,9 @@
       <trans-unit id="tl_diver.account_legend">
         <source>Account settings</source>
       </trans-unit>
+      <trans-unit id="tl_diver.id">
+        <source>Member ID</source>
+      </trans-unit>
       <trans-unit id="tl_diver.firstname.0">
         <source>First name</source>
       </trans-unit>
