@@ -22,10 +22,6 @@
         <source>List of members - Last updated</source>
         <target>Mitgliederliste - Stand</target>
       </trans-unit>
-      <trans-unit id="tl_exportdiver.memberId">
-        <source>Member ID</source>
-        <target>Mitglieder Nr</target>
-      </trans-unit>
       <trans-unit id="tl_exportdiver.resign">
         <source>Resigned from club</source>
         <target>Aus Verein ausgetreten</target>
@@ -41,6 +37,10 @@
       <trans-unit id="tl_exportdiver.noRecords">
         <source>No records found in table 'tl_diver'. Please add at lease 1 diver.</source>
         <target>Keine Einträge in der Datenbanktabelle 'tl_diver' gefunden. Bitte fügen Sie mindestens einen Taucher hinzu.</target>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.invalidType">
+        <source>The selected type &quot;%s&quot; is not valid</source>
+        <target>Der ausgewählte Datentyp &quot;%s&quot; ist nicht erlaubt.</target>
       </trans-unit>
     </body>
   </file>

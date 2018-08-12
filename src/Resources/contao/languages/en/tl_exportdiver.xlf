@@ -17,9 +17,6 @@
       <trans-unit id="tl_exportdiver.listOfMembers">
         <source>List of members - Last updated</source>
       </trans-unit>
-      <trans-unit id="tl_exportdiver.memberId">
-        <source>Member ID</source>
-      </trans-unit>
       <trans-unit id="tl_exportdiver.resign">
         <source>Resigned from club</source>
       </trans-unit>
@@ -31,6 +28,9 @@
       </trans-unit>
       <trans-unit id="tl_exportdiver.noRecords">
         <source>No records found in diver database</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.invalidType">
+        <source>The selected type &quot;%s&quot; is not valid</source>
       </trans-unit>
     </body>
   </file>
