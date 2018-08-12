@@ -102,6 +102,7 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
     (
         'id' => array
         (
+            'label'                 => &$GLOBALS['TL_LANG']['tl_diver']['id'],
             'sql'                   => "int(10) unsigned NOT NULL auto_increment"
         ),
         'tstamp' => array
