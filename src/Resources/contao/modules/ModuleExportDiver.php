@@ -59,6 +59,7 @@ class ModuleExportDiver extends Contao\BackendModule
 
         $this->Template->message = Contao\Message::generateUnwrapped(__CLASS__);
 
+        // If the form has been sent
         if (Contao\Input::post('FORM_SUBMIT') == 'tl_exportdiver')
         {
             // Check for data in table
@@ -68,10 +69,12 @@ class ModuleExportDiver extends Contao\BackendModule
 
             if($objRow->numRows < 1)
             {
+                // Stop export if no data have been found
                 Contao\Message::addError($GLOBALS['TL_LANG']['tl_exportdiver']['noRecords'], __CLASS__);
             }
             else
             {
+                // Check the selected file type
                 $filetype = Contao\Input::post('filetype');
                 if ($filetype === 'xlsx')
                 {
@@ -80,6 +83,7 @@ class ModuleExportDiver extends Contao\BackendModule
                 }
                 else
                 {
+                    // Display error if the selected file type is invalid
                     Contao\Message::addError(\sprintf($GLOBALS['TL_LANG']['tl_exportdiver']['invalidType'], $filetype), __CLASS__);
                 }
             }
