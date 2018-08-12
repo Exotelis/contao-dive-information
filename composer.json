@@ -16,7 +16,8 @@
   },
   "require": {
     "php": "^7.0",
-    "contao/core-bundle": "^4.4"
+    "contao/core-bundle": "^4.4",
+    "phpoffice/phpspreadsheet": "^1.4"
   },
   "require-dev": {
     "contao/manager-plugin": "^2.3.1"
