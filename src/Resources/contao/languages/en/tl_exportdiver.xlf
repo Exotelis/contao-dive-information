@@ -14,23 +14,29 @@
       <trans-unit id="tl_exportdiver.submit">
         <source>Export file</source>
       </trans-unit>
-      <trans-unit id="tl_exportdiver.listOfMembers">
-        <source>List of members - Last updated</source>
-      </trans-unit>
-      <trans-unit id="tl_exportdiver.resign">
-        <source>Resigned from club</source>
-      </trans-unit>
-      <trans-unit id="tl_exportdiver.automaticallyResigned">
-        <source>Resigned automatically</source>
-      </trans-unit>
-      <trans-unit id="tl_exportdiver.interested">
-        <source>Interested to join the club</source>
-      </trans-unit>
       <trans-unit id="tl_exportdiver.noRecords">
         <source>No records found in diver database</source>
       </trans-unit>
       <trans-unit id="tl_exportdiver.invalidType">
         <source>The selected type &quot;%s&quot; is not valid</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.documentTitle">
+        <source>List of members - Last updated %s</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.documentDescription">
+        <source>The list of club members, members who resigned and interested persons</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.in">
+        <source>Members</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.out">
+        <source>Resigned from club</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.automaticout">
+        <source>Resigned automatically</source>
+      </trans-unit>
+      <trans-unit id="tl_exportdiver.interested">
+        <source>Interested to join the club</source>
       </trans-unit>
     </body>
   </file>
