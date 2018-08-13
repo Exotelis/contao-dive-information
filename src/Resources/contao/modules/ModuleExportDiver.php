@@ -346,6 +346,7 @@ class ModuleExportDiver extends Contao\BackendModule
         // Set first worksheet active
         $spreadsheet->setActiveSheetIndex(0);
 
+        // Export file
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $title . '.xlsx"');
         header('Cache-Control: max-age=0');
