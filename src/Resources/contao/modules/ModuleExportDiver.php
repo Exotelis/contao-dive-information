@@ -17,7 +17,6 @@ namespace Exotelis;
 
 use Contao;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * Back end module "Export Members".
@@ -43,7 +42,7 @@ class ModuleExportDiver extends Contao\BackendModule
         $fields = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'status', 'brevet', 'nitrox', 'divecard', 'start', 'stop');
 
         // Allowed filetypes
-        $filetypes = array('xlsx' => 'Xlsx');
+        $filetypes = array('xlsx' => 'Excel - xlsx');
 
         // Define template variables
         $this->Template->href = $this->getReferer(true);
@@ -76,10 +75,13 @@ class ModuleExportDiver extends Contao\BackendModule
             {
                 // Check the selected file type
                 $filetype = Contao\Input::post('filetype');
+
+                // Get data
+                $data = $this->getData($fields);
+
                 if ($filetype === 'xlsx')
                 {
-                    $data = $this->getData($fields);
-                    $this->createXlsx($fields, $data);
+                    $this->createXlsx($data);
                 }
                 else
                 {
@@ -88,7 +90,7 @@ class ModuleExportDiver extends Contao\BackendModule
                 }
             }
 
-            $this->reload();
+           // $this->reload();
         }
     }
 
@@ -110,6 +112,24 @@ class ModuleExportDiver extends Contao\BackendModule
 
         // Define array to store the data in their categories
         $data = array('in' => array(), 'automaticout' => array(), 'out' => array(), 'interested' => array());
+
+        // Translate and push header/fields
+        $header = array();
+        foreach ($fields as $f)
+        {
+            if (\is_array($GLOBALS['TL_LANG']['tl_diver'][$f]))
+            {
+                $header[$f] = $GLOBALS['TL_LANG']['tl_diver'][$f][0];
+            }
+            else
+            {
+                $header[$f] = $GLOBALS['TL_LANG']['tl_diver'][$f];
+            }
+        }
+        foreach ($data as $key => $value)
+        {
+            $data[$key]['header'] = $header;
+        }
 
         // List of columns that should be selected (stop, disabled and interested must be part of it)
         if (!\in_array ( 'disable' , $fields))
@@ -146,22 +166,22 @@ class ModuleExportDiver extends Contao\BackendModule
                 }
             }
 
-            // Push data
+            // Push data, but only fields that are in the header
             if($r['interested'])
             {
-                \array_push($data['interested'], $r);
+                \array_push($data['interested'], \array_intersect_key($r, $header));
             }
             elseif($r['disable'])
             {
-                \array_push($data['out'], $r);
+                \array_push($data['out'], \array_intersect_key($r, $header));
             }
             elseif(!empty($r['stop']) && strtotime($r['stop']) < \time())
             {
-                \array_push($data['automaticout'], $r);
+                \array_push($data['automaticout'], \array_intersect_key($r, $header));
             }
             else
             {
-                \array_push($data['in'], $r);
+                \array_push($data['in'], \array_intersect_key($r, $header));
             }
         }
 
@@ -171,114 +191,167 @@ class ModuleExportDiver extends Contao\BackendModule
     /**
      * Creates a Xlsx file based on the data from the database
      *
-     * @param array $header List of the headers
      * @param array $data   The data of the member
-     */
-    protected function createXlsx($header, $data)
-    {
-
-    }
-
-    /**
-     * Convets the data to a csv format
      *
-     * @param array $data
-     * @param string $delimiter
-     * @return array CSV conform Array
-     */
-    private function convertToCsv($data, $delimiter = ';')
-    {
-        $csv = array();
-
-        // Set header
-        if(count($data['in']) > 0)
-        {
-            $labels = $data['in'][0];
-        }
-        elseif(count($data['automaticout']) > 0)
-        {
-            $labels = $data['automaticout'][0];
-        }
-        elseif(count($data['out']) > 0)
-        {
-            $labels = $data['out'][0];
-        }
-        elseif(count($data['interested']) > 0)
-        {
-            $labels = $data['interested'][0];
-        }
-        else
-        {
-            die('No data in valid arrays found');
-        }
-
-        foreach ($labels as $k => $v) {
-            if (\is_array($GLOBALS['TL_DCA']['tl_diver']['fields'][$k]['label'])) {
-                $csv['header'][$k] = $GLOBALS['TL_DCA']['tl_diver']['fields'][$k]['label'][0];
-            } else {
-                $csv['header'][$k] = $GLOBALS['TL_DCA']['tl_diver']['fields'][$k]['label'];
-            }
-        }
-
-        // Add header
-        $csv['header'] = \implode($delimiter, $csv['header']);
-
-        // Add Members
-        foreach ($data['in'] as $d)
-        {
-            $d = \implode($delimiter, $d);
-            \array_push($csv, $d);
-        }
-
-        // add automatic resigned member
-        \array_push($csv, $GLOBALS['TL_LANG']['tl_exportdiver']['automaticallyResigned']);
-        foreach ($data['automaticout'] as $d)
-        {
-            $d = \implode($delimiter, $d);
-            \array_push($csv, $d);
-        }
-
-        // Add old Members
-        \array_push($csv, $GLOBALS['TL_LANG']['tl_exportdiver']['resign']);
-        foreach ($data['out'] as $d)
-        {
-            $d = \implode($delimiter, $d);
-            \array_push($csv, $d);
-        }
-
-        // Interested people
-        \array_push($csv, $GLOBALS['TL_LANG']['tl_exportdiver']['interested']);
-        foreach ($data['interested'] as $d)
-        {
-            $d = \implode($delimiter, $d);
-            \array_push($csv, $d);
-        }
-
-        return $csv;
-    }
-
-    /**
-     * Creates a temporary file and downloads it
-     *
-     * @param array $data Data Array
      * @throws \Exception
      */
-    private function downloadFile($data)
+    protected function createXlsx($data)
     {
-        $objFile = new Contao\File('/files/di_exportdiver.csv');
-        foreach($data as $d)
+        // Import backend user
+        $this->import('BackendUser', 'User');
+
+        // Set title
+        $title = \sprintf($GLOBALS['TL_LANG']['tl_exportdiver']['documentTitle'], Contao\Date::parse(Contao\Config::get('dateFormat'), \time()));
+
+        // Create new Spreadsheet object
+        $spreadsheet = new Spreadsheet();
+
+        // Define Colors
+        $colors = array('headerBg' => '256089', 'headerFont' => 'ffffff', 'evenRowBg' => '86bade', 'oddRowBg' => 'ffffff', 'border' => 'd9d9d9');
+
+        // Style
+        $globalStyle = array
+        (
+            'borders' => array
+            (
+                'outline' => array
+                (
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => array
+                    (
+                        'rgb' => $colors['border']
+                    )
+                ),
+                'inside' => array
+                (
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => array
+                    (
+                        'rgb' => $colors['border']
+                    )
+                )
+            ),
+            'font' => array
+            (
+                'size' => 10
+            )
+        );
+        $headerStyle = array
+        (
+            'font' => array
+            (
+                'bold' => true,
+                'color' => array
+                (
+                    'rgb' => $colors['headerFont']
+                )
+            ),
+            'fill' => array
+            (
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array
+                (
+                    'rgb' => $colors['headerBg']
+                )
+            )
+        );
+        $evenRowStyle = array
+        (
+            'fill' => array
+            (
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array
+                (
+                    'rgb' => $colors['evenRowBg']
+                )
+            )
+        );
+        $oddRowStyle = array
+        (
+            'fill' => array
+            (
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => array
+                (
+                    'rgb' => $colors['oddRowBg']
+                )
+            )
+        );
+
+
+        // Set document properties
+        $spreadsheet->getProperties()
+            ->setCreator($this->User->name)
+            ->setLastModifiedBy($this->User->name)
+            ->setTitle($title)
+            ->setSubject($title)
+            ->setDescription($GLOBALS['TL_LANG']['tl_exportdiver']['documentDescription']);
+
+        //Add sheets and set title
+        $spreadsheet->getActiveSheet()->setTitle($GLOBALS['TL_LANG']['tl_exportdiver']['in']);
+
+        $automaticoutWorksheet = clone $spreadsheet->getActiveSheet();
+        $outWorksheet = clone $spreadsheet->getActiveSheet();
+        $interestedWorksheet = clone $spreadsheet->getActiveSheet();
+        $automaticoutWorksheet->setTitle($GLOBALS['TL_LANG']['tl_exportdiver']['automaticout']);
+        $outWorksheet->setTitle($GLOBALS['TL_LANG']['tl_exportdiver']['out']);
+        $interestedWorksheet->setTitle($GLOBALS['TL_LANG']['tl_exportdiver']['interested']);
+        $spreadsheet->addSheet($automaticoutWorksheet);
+        $spreadsheet->addSheet($outWorksheet);
+        $spreadsheet->addSheet($interestedWorksheet);
+
+        foreach ($data as $key => $value)
         {
-            $objFile->append(\utf8_decode($d));
+            $spreadsheet->setActiveSheetIndexByName($GLOBALS['TL_LANG']['tl_exportdiver'][$key]);
+
+            // Fill with data
+            $spreadsheet->getActiveSheet()->fromArray($data[$key], NULL);
+
+            // Add filter
+            $spreadsheet->getActiveSheet()->setAutoFilter($spreadsheet->getActiveSheet()->calculateWorksheetDimension());
+
+            // Global styling
+            $spreadsheet->getActiveSheet()->getStyle($spreadsheet->getActiveSheet()->calculateWorksheetDimension())->applyFromArray($globalStyle);
+
+            // Header styling
+            $spreadsheet->getActiveSheet()->getStyle('A1:' . $spreadsheet->getActiveSheet()->getHighestColumn() . '1')->applyFromArray($headerStyle);
+
+            // Row styling
+            for ($i = 2; $i <= $spreadsheet->getActiveSheet()->getHighestRow(); $i++)
+            {
+                if ($i % 2)
+                {
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':' . $spreadsheet->getActiveSheet()->getHighestColumn() . $i)->applyFromArray($oddRowStyle);
+                }
+                else
+                {
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':' . $spreadsheet->getActiveSheet()->getHighestColumn() . $i)->applyFromArray($evenRowStyle);
+                }
+            }
+
+            // Auto column width
+            foreach (range('A',$spreadsheet->getActiveSheet()->getHighestColumn()) as $columnID)
+            {
+                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+            }
+
+            // Set printer options
+            $spreadsheet->getActiveSheet()->getPageSetup() ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+            $spreadsheet->getActiveSheet()->getPageMargins()->setTop(0.19685);
+            $spreadsheet->getActiveSheet()->getPageMargins()->setRight(0.19685);
+            $spreadsheet->getActiveSheet()->getPageMargins()->setLeft(0.19685);
+            $spreadsheet->getActiveSheet()->getPageMargins()->setBottom(0.19685);
         }
-        $objFile->close();
 
-        $filename = $GLOBALS['TL_LANG']['tl_exportdiver']['listOfMembers'] . ' ' . Contao\Date::parse(Contao\Config::get('dateFormat'), \time()) . '.csv';
-        header('Content-Type: application/csv');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        echo $objFile->getContent();
+        // Set first worksheet active
+        $spreadsheet->setActiveSheetIndex(0);
 
-        $objFile->delete();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $title . '.xlsx"');
+        header('Cache-Control: max-age=0');
 
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
         exit;
     }
 }
