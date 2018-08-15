@@ -90,7 +90,7 @@ class ModuleExportDiver extends Contao\BackendModule
                 }
             }
 
-           // $this->reload();
+           $this->reload();
         }
     }
 
