@@ -204,7 +204,8 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
             'sql'                   => "varchar(255) NOT NULL default ''",
             'save_callback'         => array
             (
-                array('tl_diver', 'checkEmailNewsletter')
+                array('tl_diver', 'checkEmailNewsletter'),
+                array('tl_diver', 'updateEmailOnChange')
             )
         ),
         'status' => array
@@ -349,6 +350,30 @@ class tl_diver extends Contao\Backend
         if(empty($email) && $newsletter != NULL)
         {
             throw new \Exception($GLOBALS['TL_LANG']['tl_diver']['ERR']['mailMandatory']);
+        }
+
+        return $varValue;
+    }
+
+    /**
+     * Updates the email in the newsletter recipients if the email changes
+     *
+     * @param string $varValue      The value of the field
+     * @param DataContainer $dc     The DataContainer object
+
+     * @return string               The value of the field
+     */
+    public function updateEmailOnChange($varValue, DataContainer $dc)
+    {
+        $objRow = $this->Database->prepare("SELECT email FROM tl_diver WHERE id=?")
+            ->limit(1)
+            ->execute($dc->id);
+
+        // If email has been changed update newsletter
+        if($objRow->email !== $varValue)
+        {
+            $this->Database->prepare("UPDATE tl_newsletter_recipients SET email=? WHERE email=?")
+                ->execute($varValue, $objRow->email);
         }
 
         return $varValue;
