@@ -170,6 +170,12 @@
       <trans-unit id="tl_diver.stop.1">
         <source>Automatically stop the membership on this day.</source>
       </trans-unit>
+      <trans-unit id="tl_diver.canceledTo.0">
+        <source>Cancel on</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.canceledTo.1">
+        <source>Automatically disable the membership on this day.</source>
+      </trans-unit>
       <trans-unit id="tl_diver.female">
         <source>female</source>
       </trans-unit>
@@ -179,8 +185,23 @@
       <trans-unit id="tl_diver.active">
         <source>Active</source>
       </trans-unit>
+      <trans-unit id="tl_diver.partner">
+        <source>Partner</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.ptsactive">
+        <source>Pupil, trainee, student (active)</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.familyp">
+        <source>Family (primary)</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.familys">
+        <source>Family (secondary)</source>
+      </trans-unit>
       <trans-unit id="tl_diver.passive">
         <source>Passive</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.ptspassive">
+        <source>Pupil, trainee, student (passive)</source>
       </trans-unit>
       <trans-unit id="tl_diver.child">
         <source>Child</source>
@@ -197,8 +218,11 @@
       <trans-unit id="tl_diver.basic">
         <source>Basic</source>
       </trans-unit>
-      <trans-unit id="tl_diver.family">
-        <source>Family</source>
+      <trans-unit id="tl_diver.familyp">
+        <source>Family (principal)</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.familys">
+        <source>Family (co-insured)</source>
       </trans-unit>
       <trans-unit id="tl_diver.professional">
         <source>Professional</source>

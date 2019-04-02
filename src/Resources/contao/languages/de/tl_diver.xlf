@@ -226,6 +226,14 @@
         <source>Automatically stop the membership on this day.</source>
         <target>Die Mitgliedschaft automatisch an diesem Tag beenden.</target>
       </trans-unit>
+      <trans-unit id="tl_diver.canceledTo.0">
+        <source>Cancel on</source>
+        <target>Gekündigt zum</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.canceledTo.1">
+        <source>Automatically disable the membership on this day.</source>
+        <target>Mitgliedschaft wurde zu dem Tag gekündigt.</target>
+      </trans-unit>
       <trans-unit id="tl_diver.female">
         <source>female</source>
         <target>weiblich</target>
@@ -238,9 +246,29 @@
         <source>Active</source>
         <target>Aktiv</target>
       </trans-unit>
+      <trans-unit id="tl_diver.partner">
+        <source>Partner</source>
+        <target>Partner</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.ptsactive">
+        <source>Pupil, trainee, student (active)</source>
+        <target>Schüler, Azubi, Student (aktiv)</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.familyp">
+        <source>Family (primary)</source>
+        <target>Familie (Hauptmitglied)</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.familys">
+        <source>Family (secondary)</source>
+        <target>Familie (Sekundärmitglied)</target>
+      </trans-unit>
       <trans-unit id="tl_diver.passive">
         <source>Passive</source>
         <target>Passiv</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.ptspassive">
+        <source>Pupil, trainee, student (passive)</source>
+        <target>Schüler, Azubi, Student (passiv)</target>
       </trans-unit>
       <trans-unit id="tl_diver.child">
         <source>Child</source>
@@ -262,9 +290,13 @@
         <source>Basic</source>
         <target>Basic</target>
       </trans-unit>
-      <trans-unit id="tl_diver.family">
-        <source>Family</source>
-        <target>Family</target>
+      <trans-unit id="tl_diver.familyp">
+        <source>Family (principal)</source>
+        <target>Family (Hauptversicherter)</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.familys">
+        <source>Family (co-insured)</source>
+        <target>Family (Mitversicherter)</target>
       </trans-unit>
       <trans-unit id="tl_diver.professional">
         <source>Professional</source>
