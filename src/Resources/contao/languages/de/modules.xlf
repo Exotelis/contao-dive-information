@@ -2,24 +2,24 @@
   <file datatype="php" original="src/Resources/contao/languages/en/modules.php" source-language="en" target-language="de">
     <body>
       <trans-unit id="MOD.dive_information">
-        <source>Muräne</source>
-        <target>Muräne</target>
+        <source>Club</source>
+        <target>Verein</target>
       </trans-unit>
       <trans-unit id="MOD.di_diver.0">
-        <source>Diver</source>
-        <target>Taucher</target>
+        <source>Clubmember</source>
+        <target>Vereinsmitglied</target>
       </trans-unit>
       <trans-unit id="MOD.di_diver.1">
-        <source>Manage Diver (Club Member)</source>
-        <target>Tauchkonten verwalten (Vereinsmitglieder)</target>
+        <source>Manage club member</source>
+        <target>Vereinsmitglieder verwalten</target>
       </trans-unit>
       <trans-unit id="MOD.di_exportdiver.0">
-        <source>Diver export</source>
-        <target>Taucher exportieren</target>
+        <source>Club member export</source>
+        <target>Vereinsmitglieder exportieren</target>
       </trans-unit>
       <trans-unit id="MOD.di_exportdiver.1">
-        <source>Export all diver</source>
-        <target>Alle Taucher exportieren</target>
+        <source>Export all club member</source>
+        <target>Alle Vereinsmitglieder exportieren</target>
       </trans-unit>
     </body>
   </file>

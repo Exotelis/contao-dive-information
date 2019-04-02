@@ -2,19 +2,19 @@
   <file datatype="php" original="src/Resources/contao/languages/en/modules.php" source-language="en">
     <body>
       <trans-unit id="MOD.dive_information">
-        <source>Muräne</source>
+        <source>Club</source>
       </trans-unit>
       <trans-unit id="MOD.di_diver.0">
-        <source>Diver</source>
+        <source>Clubmember</source>
       </trans-unit>
       <trans-unit id="MOD.di_diver.1">
-        <source>Manage Diver (Club Member)</source>
+        <source>Manage club member</source>
       </trans-unit>
       <trans-unit id="MOD.di_exportdiver.0">
-        <source>Diver export</source>
+        <source>Club member export</source>
       </trans-unit>
       <trans-unit id="MOD.di_exportdiver.1">
-        <source>Export all diver</source>
+        <source>Export all club member</source>
       </trans-unit>
     </body>
   </file>
