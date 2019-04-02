@@ -22,6 +22,7 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
         'enableVersioning'  => true,
         'onload_callback'   => array
         (
+            array('Exotelis\Util', 'disableMembership'),
             array('Exotelis\Newsletter', 'updateAccount')
         ),
         'sql'               => array
@@ -46,7 +47,7 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
         ),
         'label' => array
         (
-            'fields'            => array('icon', 'lastname', 'firstname', 'status', 'start', 'stop'),
+            'fields'            => array('icon', 'lastname', 'firstname', 'status', 'divecard', 'start', 'stop'),
             'showColumns'       => true,
             'label_callback'    => array('tl_diver', 'updateLabel')
         ),
@@ -94,7 +95,7 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
     // Palettes
     'palettes' => array
     (
-        'default'  => '{personal_legend},firstname,lastname,dateOfBirth,gender;{address_legend},street,postal,city;{contact_legend},phone,mobile,email;{dive_legend},status,brevet,nitrox,divecard;{newsletter_legend},newsletter;{account_legend},disable,interested,start,stop',
+        'default'  => '{personal_legend},firstname,lastname,dateOfBirth,gender;{address_legend},street,postal,city;{contact_legend},phone,mobile,email;{dive_legend},status,brevet,nitrox,divecard;{newsletter_legend},newsletter;{account_legend},disable,interested,start,stop,canceledTo',
     ),
 
     // Fields
@@ -214,7 +215,7 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
             'exclude'               => true,
             'filter'                => true,
             'inputType'             => 'select',
-            'options'               => array('active', 'passive', 'child'),
+            'options'               => array('active', 'partner', 'ptsactive', 'familyp', 'familys', 'passive', 'ptspassive', 'child'),
             'reference'             => &$GLOBALS['TL_LANG']['tl_diver'],
             'eval'                  => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
             'sql'                   => "varchar(10) NOT NULL default ''"
@@ -245,7 +246,7 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
             'exclude'               => true,
             'filter'                => true,
             'inputType'             => 'select',
-            'options'               => array('basic', 'family', 'professional'),
+            'options'               => array('basic', 'familyp', 'familys', 'professional'),
             'reference'             => &$GLOBALS['TL_LANG']['tl_diver'],
             'eval'                  => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
             'sql'                   => "varchar(32) NOT NULL default ''"
@@ -264,6 +265,14 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
         'stop' => array
         (
             'label'                 => &$GLOBALS['TL_LANG']['tl_diver']['stop'],
+            'exclude'               => true,
+            'inputType'             => 'text',
+            'eval'                  => array('rgxp'=>'date', 'datepicker'=>true, 'tl_class'=>'w50 wizard'),
+            'sql'                   => "varchar(11) NOT NULL default ''"
+        ),
+        'canceledTo' => array
+        (
+            'label'                 => &$GLOBALS['TL_LANG']['tl_diver']['canceledTo'],
             'exclude'               => true,
             'inputType'             => 'text',
             'eval'                  => array('rgxp'=>'date', 'datepicker'=>true, 'tl_class'=>'w50 wizard'),
@@ -365,9 +374,16 @@ class tl_diver extends Contao\Backend
      */
     public function updateEmailOnChange($varValue, DataContainer $dc)
     {
-        $objRow = $this->Database->prepare("SELECT email FROM tl_diver WHERE id=?")
+        $objRow = $this->Database->prepare("SELECT email, newsletter FROM tl_diver WHERE id=?")
             ->limit(1)
             ->execute($dc->id);
+
+        // If email is empty and all newsletter have been disabled at the same time
+        if(empty($varValue) && empty($dc->Input->post('newsletter')) && $objRow->newsletter !== NULL)
+        {
+            $this->Database->prepare("DELETE FROM tl_newsletter_recipients WHERE email=?")
+                ->execute($objRow->email);
+        }
 
         // If email has been changed update newsletter
         if($objRow->email !== $varValue)
