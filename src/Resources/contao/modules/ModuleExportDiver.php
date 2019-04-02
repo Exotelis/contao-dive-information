@@ -39,7 +39,7 @@ class ModuleExportDiver extends Contao\BackendModule
         Contao\System::loadLanguageFile('tl_exportdiver');
 
         // Fields to be exported
-        $fields = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'status', 'brevet', 'nitrox', 'divecard', 'start', 'stop');
+        $fields = array('id', 'lastname', 'firstname', 'gender', 'dateOfBirth', 'street', 'postal', 'city', 'phone', 'mobile', 'email', 'status', 'brevet', 'nitrox', 'divecard', 'start', 'stop', 'canceledTo');
 
         // Allowed filetypes
         $filetypes = array('xlsx' => 'Excel - xlsx');
@@ -61,6 +61,9 @@ class ModuleExportDiver extends Contao\BackendModule
         // If the form has been sent
         if (Contao\Input::post('FORM_SUBMIT') == 'tl_exportdiver')
         {
+            // Update user that has been disabled
+            (new Util())->disableMembership();
+
             // Check for data in table
             $objRow = $this->Database->prepare("SELECT lastname FROM tl_diver")
                 ->limit(1)
