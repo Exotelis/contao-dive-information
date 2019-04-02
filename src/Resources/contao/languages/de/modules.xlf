@@ -6,8 +6,8 @@
         <target>Verein</target>
       </trans-unit>
       <trans-unit id="MOD.di_diver.0">
-        <source>Clubmember</source>
-        <target>Vereinsmitglied</target>
+        <source>Club member</source>
+        <target>Vereinsmitglieder</target>
       </trans-unit>
       <trans-unit id="MOD.di_diver.1">
         <source>Manage club member</source>
