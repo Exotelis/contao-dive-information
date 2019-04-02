@@ -191,10 +191,10 @@
       <trans-unit id="tl_diver.ptsactive">
         <source>Pupil, trainee, student (active)</source>
       </trans-unit>
-      <trans-unit id="tl_diver.familyp">
+      <trans-unit id="tl_diver.familypm">
         <source>Family (primary)</source>
       </trans-unit>
-      <trans-unit id="tl_diver.familys">
+      <trans-unit id="tl_diver.familysm">
         <source>Family (secondary)</source>
       </trans-unit>
       <trans-unit id="tl_diver.passive">

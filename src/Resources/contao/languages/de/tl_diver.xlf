@@ -254,11 +254,11 @@
         <source>Pupil, trainee, student (active)</source>
         <target>Schüler, Azubi, Student (aktiv)</target>
       </trans-unit>
-      <trans-unit id="tl_diver.familyp">
+      <trans-unit id="tl_diver.familypm">
         <source>Family (primary)</source>
         <target>Familie (Hauptmitglied)</target>
       </trans-unit>
-      <trans-unit id="tl_diver.familys">
+      <trans-unit id="tl_diver.familysm">
         <source>Family (secondary)</source>
         <target>Familie (Sekundärmitglied)</target>
       </trans-unit>
