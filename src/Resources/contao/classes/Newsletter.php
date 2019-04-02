@@ -73,14 +73,24 @@ class Newsletter extends Contao\Newsletter
             return $blnDisabled;
         }
 
+        // Get "Rundschreiben Mitglieder" ID
+        $result = $this->Database->prepare("SELECT id FROM tl_newsletter_channel WHERE title=?")
+            ->limit(1)
+            ->execute("Rundschreiben Mitglieder");
+
+        if ($result->numRows < 1) {
+            return false;
+        }
+        $channelId = $result->id;
+
         $objUser = $this->Database->prepare("SELECT email FROM tl_diver WHERE id=?")
             ->limit(1)
             ->execute($dc->id);
 
         if ($objUser->numRows)
         {
-            $this->Database->prepare("UPDATE tl_newsletter_recipients SET tstamp=?, active=? WHERE email=?")
-                ->execute(\time(), ($blnDisabled ? '' : '1'), $objUser->email);
+            $this->Database->prepare("UPDATE tl_newsletter_recipients SET tstamp=?, active=? WHERE email=? AND pid=?")
+                ->execute(\time(), ($blnDisabled ? '' : '1'), $objUser->email, $channelId);
         }
 
         return $blnDisabled;
