@@ -116,6 +116,38 @@ class ModuleExportDiver extends Contao\BackendModule
         // Define array to store the data in their categories
         $data = array('in' => array(), 'automaticout' => array(), 'out' => array(), 'interested' => array());
 
+        // Add extra fields (fee)
+        $fee = "CASE status 
+            WHEN 'familypm' THEN 21.00
+            WHEN 'active' THEN 13.00
+            WHEN 'partner' THEN 6.50
+            WHEN 'ptsactive' THEN 6.50
+            WHEN 'passive' THEN 5.00
+            WHEN 'familye' THEN 1.25
+            ELSE 0.00
+          END AS feePerMonth,
+          (SELECT feePerMonth) * 3 AS feePerQuarter,
+          (SELECT feePerMonth) * 6 AS feePerHalfYear,
+          (SELECT feePerMonth) * 12 AS feePerYear";
+
+        // List of columns that should be selected (stop, disabled and interested must be part of it)
+        if (!\in_array ( 'disable' , $fields))
+        {
+            \array_push($fields, 'disable');
+        }
+        if (!\in_array ( 'interested' , $fields))
+        {
+            \array_push($fields, 'interested');
+        }
+
+        // Get data from database
+        $objRow = $this->Database->prepare("SELECT " . implode(",", $fields) . ", " . $fee . " FROM tl_diver ORDER BY lastname, firstname")
+            ->execute();
+        $result = $objRow->fetchAllAssoc();
+
+        // Add temp column in fields
+        \array_push($fields, 'feePerHalfYear');
+
         // Translate and push header/fields
         $header = array();
         foreach ($fields as $f)
@@ -134,27 +166,17 @@ class ModuleExportDiver extends Contao\BackendModule
             $data[$key]['header'] = $header;
         }
 
-        // List of columns that should be selected (stop, disabled and interested must be part of it)
-        if (!\in_array ( 'disable' , $fields))
-        {
-            \array_push($fields, 'disable');
-        }
-        if (!\in_array ( 'interested' , $fields))
-        {
-            \array_push($fields, 'interested');
-        }
-
-        // Get data from database
-        $objRow = $this->Database->prepare("SELECT " . implode(",", $fields) . " FROM tl_diver ORDER BY lastname, firstname")
-            ->execute();
-        $result = $objRow->fetchAllAssoc();
-
         // Parse data
         foreach($result as $r)
         {
             // Set labels and convert and translate data
             foreach ($fields as $label)
             {
+                // Check if field is in DCA
+                if(!\array_key_exists($label, $GLOBALS['TL_DCA']['tl_diver']['fields'])) {
+                    continue;
+                }
+
                 // Convert timestamps to date
                 if(\array_key_exists('eval', $GLOBALS['TL_DCA']['tl_diver']['fields'][$label]) && \array_key_exists('rgxp', $GLOBALS['TL_DCA']['tl_diver']['fields'][$label]['eval']))
                 {

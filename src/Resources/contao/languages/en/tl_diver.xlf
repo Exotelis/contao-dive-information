@@ -233,6 +233,18 @@
       <trans-unit id="tl_diver.professional">
         <source>Professional</source>
       </trans-unit>
+      <trans-unit id="tl_diver.feePerMonth">
+        <source>Fee per month</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.feePerQuarter">
+        <source>Fee per quarter</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.feePerHalfYear">
+        <source>Fee per half year</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.feePerYear">
+        <source>Fee per  year</source>
+      </trans-unit>
       <trans-unit id="tl_diver.ERR.mailMandatory">
         <source>Field &quot;E-mail address&quot; must not be empty if a &quot;newsletter&quot; is selected!</source>
       </trans-unit>

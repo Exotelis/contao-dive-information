@@ -310,6 +310,22 @@
         <source>Professional</source>
         <target>Professional</target>
       </trans-unit>
+      <trans-unit id="tl_diver.feePerMonth">
+        <source>Fee per month</source>
+        <target>Monatsbeitrag</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.feePerQuarter">
+        <source>Fee per quarter</source>
+        <target>Quartalsbeitrag</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.feePerHalfYear">
+        <source>Fee per half year</source>
+        <target>Halbjahresbeitrag</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.feePerYear">
+        <source>Fee per  year</source>
+        <target>Jahresbeitrag</target>
+      </trans-unit>
       <trans-unit id="tl_diver.ERR.mailMandatory">
         <source>Field &quot;E-mail address&quot; must not be empty if a &quot;newsletter&quot; is selected!</source>
         <target>Bitte füllen Sie das Feld &quot;E-Mail-Adresse&quot; aus, wenn ein &quot;Newsletter&quot; ausgewählt ist!</target>
