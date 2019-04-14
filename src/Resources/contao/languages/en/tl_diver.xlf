@@ -197,6 +197,9 @@
       <trans-unit id="tl_diver.familysm">
         <source>Family (secondary)</source>
       </trans-unit>
+      <trans-unit id="tl_diver.familye">
+        <source>Family (extra)</source>
+      </trans-unit>
       <trans-unit id="tl_diver.passive">
         <source>Passive</source>
       </trans-unit>
@@ -223,6 +226,9 @@
       </trans-unit>
       <trans-unit id="tl_diver.familys">
         <source>Family (co-insured)</source>
+      </trans-unit>
+      <trans-unit id="tl_diver.travel">
+        <source>Travel</source>
       </trans-unit>
       <trans-unit id="tl_diver.professional">
         <source>Professional</source>

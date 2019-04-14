@@ -262,6 +262,10 @@
         <source>Family (secondary)</source>
         <target>Familie (Sekundärmitglied)</target>
       </trans-unit>
+      <trans-unit id="tl_diver.familye">
+        <source>Family (extra)</source>
+        <target>Family (zusätzliches Mitglied)</target>
+      </trans-unit>
       <trans-unit id="tl_diver.passive">
         <source>Passive</source>
         <target>Passiv</target>
@@ -297,6 +301,10 @@
       <trans-unit id="tl_diver.familys">
         <source>Family (co-insured)</source>
         <target>Family (Mitversicherter)</target>
+      </trans-unit>
+      <trans-unit id="tl_diver.travel">
+        <source>Travel</source>
+        <target>Travel</target>
       </trans-unit>
       <trans-unit id="tl_diver.professional">
         <source>Professional</source>
