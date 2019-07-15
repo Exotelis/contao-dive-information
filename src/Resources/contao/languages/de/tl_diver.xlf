@@ -278,6 +278,10 @@
         <source>Child</source>
         <target>Kind</target>
       </trans-unit>
+      <trans-unit id="tl_diver.trial">
+        <source>Trial member</source>
+        <target>Probemitglied</target>
+      </trans-unit>
       <trans-unit id="tl_diver.yes">
         <source>Yes</source>
         <target>Ja</target>

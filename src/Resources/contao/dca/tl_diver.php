@@ -215,7 +215,7 @@ $GLOBALS['TL_DCA']['tl_diver'] = array
             'exclude'               => true,
             'filter'                => true,
             'inputType'             => 'select',
-            'options'               => array('active', 'partner', 'ptsactive', 'familypm', 'familysm', 'familye', 'passive', 'ptspassive', 'child'),
+            'options'               => array('active', 'partner', 'ptsactive', 'familypm', 'familysm', 'familye', 'passive', 'ptspassive', 'child', 'trial'),
             'reference'             => &$GLOBALS['TL_LANG']['tl_diver'],
             'eval'                  => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
             'sql'                   => "varchar(10) NOT NULL default ''"

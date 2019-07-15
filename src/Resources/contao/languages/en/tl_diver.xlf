@@ -209,6 +209,9 @@
       <trans-unit id="tl_diver.child">
         <source>Child</source>
       </trans-unit>
+      <trans-unit id="tl_diver.trial">
+        <source>Trial member</source>
+      </trans-unit>
       <trans-unit id="tl_diver.yes">
         <source>Yes</source>
       </trans-unit>
