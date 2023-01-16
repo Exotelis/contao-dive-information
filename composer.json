@@ -15,9 +15,10 @@
     "source": "https://github.com/Exotelis/contao-dive-information"
   },
   "require": {
-    "php": "^7.0",
-    "contao/core-bundle": "^4.4",
-    "phpoffice/phpspreadsheet": "^1.4"
+    "php": "^7.4 || ^8.0",
+    "contao/core-bundle": "^4.13",
+    "contao/newsletter-bundle": "^4.13",
+    "phpoffice/phpspreadsheet": "^1.26"
   },
   "require-dev": {
     "contao/manager-plugin": "^2.3.1"
