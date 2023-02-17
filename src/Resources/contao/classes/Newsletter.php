@@ -160,8 +160,8 @@ class Newsletter extends Contao\Newsletter
                 ->execute($intId, $objUser->email);
             if ($objRecipient->count < 1)
             {
-                $this->Database->prepare("INSERT INTO tl_newsletter_recipients SET pid=?, tstamp=$time, email=?, active=?, addedOn=?, ip=?")
-                    ->execute($intId, $objUser->email, ($objUser->disable ? '' : 1), ($blnIsFrontend ? $time : ''), ($blnIsFrontend ? \Environment::get('ip') : ''));
+                $this->Database->prepare("INSERT INTO tl_newsletter_recipients SET pid=?, tstamp=$time, email=?, active=?, addedOn=?")
+                    ->execute($intId, $objUser->email, ($objUser->disable ? '' : 1), ($blnIsFrontend ? $time : ''));
             }
         }
         return \serialize($varValue);
